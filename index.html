@@ -4,135 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>本生燈的作品集 | Bunsen Burner Books</title>
-   <style>
-        /* 全域設定：模仿 Wix 的乾淨白底風格 */
+  <style>
+        /* 1. 網頁全域設定：複製目標網站的純白質感 */
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", sans-serif;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* 經典無襯線字體 */
+            background-color: #ffffff; /* 純白背景 */
+            color: #2f2f2f; /* 深灰色文字，比純黑柔和一點點 */
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* 純白背景 */
-            color: #1a1a1a; /* 極深的灰，比純黑更有質感 */
-            line-height: 1.6;
+            letter-spacing: 0.5px; /* 字距微調，增加空氣感 */
         }
 
-        /* 頁首 Header：模仿原本的置中 Logo 和導覽列 */
+        /* 2. 頁首 Header：極簡置中 */
         header {
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
-            background-color: #ffffff;
-            border-bottom: 1px solid #eee; /* 淡淡的分隔線 */
+            background-color: #fff;
         }
         .site-title {
-            font-size: 2rem;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            font-weight: 300; /* 細字體比較優雅 */
-            text-transform: uppercase;
+            font-size: 1.8rem;
+            font-weight: 700; /* 加粗 */
+            color: #000;
+            letter-spacing: 3px;
+            text-transform: uppercase; /* 強制全大寫 */
+            margin-bottom: 20px;
         }
         .nav-menu {
-            font-size: 0.9rem;
-            color: #666;
-            letter-spacing: 1px;
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 1.5px;
+            border-top: 1px solid #eee; /* 上方裝飾線 */
+            border-bottom: 1px solid #eee; /* 下方裝飾線 */
+            display: inline-block;
+            padding: 10px 40px;
         }
 
-        /* 內容容器 */
+        /* 3. 內容區塊 */
         .container {
-            max-width: 980px; /* 限制寬度，讓閱讀更舒適 */
+            max-width: 900px; /* 寬度稍微縮窄，集中視覺 */
             margin: 0 auto;
             padding: 40px 20px;
         }
 
-        /* 書籍列表：改為「橫向」排列 (Flexbox) */
+        /* 4. 書籍列表 Item：模仿 Wix 的清單佈局 */
         .book-item {
-            display: flex; /* 關鍵！讓圖片和文字並排 */
-            flex-direction: row;
-            background: #fff;
-            margin-bottom: 60px; /* 每本書之間的距離 */
-            padding-bottom: 40px;
-            border-bottom: 1px solid #f0f0f0; /* 書與書之間的分隔線 */
-            gap: 40px; /* 圖片和文字的間距 */
+            display: flex; /* 左圖右文 */
+            margin-bottom: 80px; /* 拉大間距 */
+            gap: 50px; /* 圖片跟文字分開一點 */
+            align-items: flex-start;
         }
 
-        /* 圖片區塊 */
+        /* 圖片容器 */
         .book-cover-container {
-            flex: 0 0 220px; /* 固定圖片寬度 220px */
+            flex: 0 0 200px; /* 固定圖片寬度 */
         }
+        /* 圖片本體 */
         .book-cover {
-            width: 100%;
-            height: auto;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1); /* 微微的陰影讓書浮起來 */
-            display: block;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.08); /* 非常淡的陰影，增加立體感 */
+            transition: opacity 0.3s;
+        }
+        .book-cover:hover {
+            opacity: 0.9;
         }
 
-        /* 文字區塊 */
+        /* 右側文字資訊 */
         .book-info {
-            flex: 1; /* 佔滿剩餘空間 */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            text-align: left; /* 文字靠左對齊 */
+            flex: 1;
+            padding-top: 0px;
         }
 
-        /* 書名與價格 */
+        /* 書名：模仿 Wix 的標題風格 */
         .book-title {
-            font-size: 1.4rem;
-            margin: 0 0 5px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
             color: #000;
-            font-weight: 500;
-        }
-        .book-price {
-            font-size: 1rem;
-            color: #888;
-            margin-bottom: 15px;
-            font-family: Georgia, serif; /* 價格用襯線字體更有質感 */
+            margin: 0 0 8px 0;
+            letter-spacing: 1px;
         }
 
-        /* 標籤 Tag (模仿原本網站的彩色小標籤) */
-        .tags {
-            font-size: 0.85rem;
+        /* 價格：優雅的襯線體 */
+        .book-price {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.1rem;
             color: #666;
             margin-bottom: 20px;
+            font-style: italic; /* 斜體增加文藝感 */
         }
-        .tag-highlight {
-            color: #d35400; /* 橘色強調 */
+
+        /* TAG 標籤區 */
+        .tags {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        .tag-label {
+            color: #000;
+            font-weight: bold;
             margin-right: 5px;
         }
 
-        /* 書籍簡介內容 */
+        /* 內文描述 */
         .book-desc {
             font-size: 0.95rem;
+            line-height: 1.8;
             color: #444;
-            margin-bottom: 25px;
-            white-space: pre-line; /* 讓你的斷行可以正常顯示 */
+            margin-bottom: 30px;
+            font-weight: 300;
         }
 
-        /* 購買連結 (模仿原本的簡潔文字連結) */
-        .buy-link {
-            display: inline-block;
-            color: #000;
-            font-weight: bold;
-            text-decoration: underline;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .buy-link:hover {
-            color: #666; /* 滑鼠移過去變灰色 */
+        /* 5. 按鈕區塊 (Action Buttons) - 這是你要的重點！ */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
         }
 
-        /* 手機版響應式設計 (RWD) */
+        /* 通用按鈕樣式 */
+        .btn {
+            padding: 12px 30px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: 1.5px;
+            text-transform: uppercase; /* 全大寫 */
+            font-weight: 600;
+            border-radius: 0px; /* 直角設計，符合極簡風 */
+        }
+
+        /* 「購買」按鈕：實心黑底白字 */
+        .btn-buy {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+        }
+        .btn-buy:hover {
+            background-color: #333333; /* 滑鼠移過去稍微變淺 */
+            border-color: #333333;
+        }
+
+        /* 「資訊頁」按鈕：白底黑框 */
+        .btn-info {
+            background-color: transparent;
+            color: #000000;
+            border: 1px solid #000000;
+        }
+        .btn-info:hover {
+            background-color: #000000; /* 滑鼠移過去變黑底 */
+            color: #ffffff; /* 文字變白 */
+        }
+
+        /* 手機版 RWD */
         @media (max-width: 768px) {
             .book-item {
-                flex-direction: column; /* 手機上改回直排 */
-                align-items: center; /* 置中對齊 */
+                flex-direction: column;
+                align-items: center;
                 text-align: center;
+                gap: 20px;
             }
             .book-cover-container {
-                width: 180px; /* 手機上圖片縮小一點 */
-                margin-bottom: 20px;
+                width: 160px; /* 手機圖變小 */
             }
-            .book-info {
-                text-align: left; /* 手機上文字還是靠左讀起來比較舒服 */
-                width: 100%;
+            .action-buttons {
+                justify-content: center; /* 按鈕置中 */
             }
         }
     </style>
@@ -204,6 +237,7 @@
         </div>
 </body>
 </html>
+
 
 
 
