@@ -4,128 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>本生燈的作品集 | Bunsen Burner Books</title>
-    <style>
-        /* 基礎設定 */
+   <style>
+        /* 全域設定：模仿 Wix 的乾淨白底風格 */
         body {
-            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft JhengHei", sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #ffffff; /* 純白背景 */
+            color: #1a1a1a; /* 極深的灰，比純黑更有質感 */
+            line-height: 1.6;
         }
-        
-        /* 頁首 Header */
+
+        /* 頁首 Header：模仿原本的置中 Logo 和導覽列 */
         header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 2rem 1rem;
+            padding: 40px 20px;
             text-align: center;
+            background-color: #ffffff;
+            border-bottom: 1px solid #eee; /* 淡淡的分隔線 */
         }
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { margin-top: 10px; opacity: 0.8; }
-        
-        /* 貓頭鷹 Logo 模擬 */
-        .logo { font-size: 3rem; margin-bottom: 10px; display: block; }
+        .site-title {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 300; /* 細字體比較優雅 */
+            text-transform: uppercase;
+        }
+        .nav-menu {
+            font-size: 0.9rem;
+            color: #666;
+            letter-spacing: 1px;
+        }
 
-        /* 書籍列表容器 */
+        /* 內容容器 */
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            max-width: 980px; /* 限制寬度，讓閱讀更舒適 */
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        /* 單本書卡片設計 */
-        .book-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+        /* 書籍列表：改為「橫向」排列 (Flexbox) */
+        .book-item {
+            display: flex; /* 關鍵！讓圖片和文字並排 */
+            flex-direction: row;
+            background: #fff;
+            margin-bottom: 60px; /* 每本書之間的距離 */
+            padding-bottom: 40px;
+            border-bottom: 1px solid #f0f0f0; /* 書與書之間的分隔線 */
+            gap: 40px; /* 圖片和文字的間距 */
+        }
+
+        /* 圖片區塊 */
+        .book-cover-container {
+            flex: 0 0 220px; /* 固定圖片寬度 220px */
+        }
+        .book-cover {
+            width: 100%;
+            height: auto;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1); /* 微微的陰影讓書浮起來 */
+            display: block;
+        }
+
+        /* 文字區塊 */
+        .book-info {
+            flex: 1; /* 佔滿剩餘空間 */
             display: flex;
             flex-direction: column;
-        }
-        .book-card:hover {
-            transform: translateY(-5px);
+            justify-content: flex-start;
+            text-align: left; /* 文字靠左對齊 */
         }
 
-        /* 假封面圖片區塊 (你可以換成真的圖片連結) */
-        .book-cover {
-            height: 300px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* 書名與價格 */
+        .book-title {
+            font-size: 1.4rem;
+            margin: 0 0 5px 0;
+            color: #000;
+            font-weight: 500;
+        }
+        .book-price {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 15px;
+            font-family: Georgia, serif; /* 價格用襯線字體更有質感 */
+        }
+
+        /* 標籤 Tag (模仿原本網站的彩色小標籤) */
+        .tags {
+            font-size: 0.85rem;
             color: #666;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
-        
-        /* 書籍內容 */
-        .book-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .book-title { font-size: 1.5rem; margin: 0 0 10px 0; color: #2c3e50; }
-        .book-desc { font-size: 0.95rem; line-height: 1.6; color: #666; margin-bottom: 20px; flex-grow: 1;}
+        .tag-highlight {
+            color: #d35400; /* 橘色強調 */
+            margin-right: 5px;
+        }
 
-        /* 購買按鈕 */
-        .buy-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 0;
-            background-color: #e67e22; /* 好賣家風格橘色 */
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
+        /* 書籍簡介內容 */
+        .book-desc {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 25px;
+            white-space: pre-line; /* 讓你的斷行可以正常顯示 */
+        }
+
+        /* 購買連結 (模仿原本的簡潔文字連結) */
+        .buy-link {
+            display: inline-block;
+            color: #000;
             font-weight: bold;
-            transition: background 0.3s;
+            text-decoration: underline;
+            font-size: 0.95rem;
+            transition: color 0.3s;
         }
-        .buy-btn:hover { background-color: #d35400; }
+        .buy-link:hover {
+            color: #666; /* 滑鼠移過去變灰色 */
+        }
 
-        /* 頁尾 */
-        footer { text-align: center; padding: 20px; color: #888; font-size: 0.9rem; }
+        /* 手機版響應式設計 (RWD) */
+        @media (max-width: 768px) {
+            .book-item {
+                flex-direction: column; /* 手機上改回直排 */
+                align-items: center; /* 置中對齊 */
+                text-align: center;
+            }
+            .book-cover-container {
+                width: 180px; /* 手機上圖片縮小一點 */
+                margin-bottom: 20px;
+            }
+            .book-info {
+                text-align: left; /* 手機上文字還是靠左讀起來比較舒服 */
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
+ <body>
+
     <header>
-        <span class="logo">🦉</span> <h1>本生燈 Bunsen Burner</h1>
-        <p>歡迎來到我的文字世界 | BL 小說 | 原創文學</p>
+        <div class="site-title">GLORY BOOKS | 本生燈</div>
+        <div class="nav-menu">HOME &nbsp;/&nbsp; BOOKS &nbsp;/&nbsp; ABOUT</div>
     </header>
 
     <div class="container">
-        <div class="book-card">
-            <img src="cover.jpg" alt="安邦立業先守成　上" class="book-cover" style="object-fit: cover; width: 100%; height: auto;">
-            <div class="book-info">
-                <h3 class="book-title">書名範例 01</h3>
-                <p class="book-desc">
-                    這裡是書籍簡介。兩位主角在命運的安排下相遇...（請填入你的文案）。
-                    <br><br>
-                    規格：A5 / 繁體中文 / 200P
-                </p>
-                <a href="https://famistore.famiport.com.tw/..." target="_blank" class="buy-btn">前往好賣家購買</a>
-            </div>
-        </div>
-
-        <div class="book-card">
-            <img src="cover2.jpg" alt="安邦立業先守成　下" class="book-cover" style="object-fit: cover; width: 100%;; height: auto;">
-            <div class="book-info">
-                <h3 class="book-title">書名範例 02</h3>
-                <p class="book-desc">
-                    這是第二本書的簡介。描述另一段扣人心弦的故事。
-                </p>
-                <a href="https://famistore.famiport.com.tw/..." target="_blank" class="buy-btn">前往好賣家購買</a>
-            </div>
-        </div>
         
+        <div class="book-item">
+            <div class="book-cover-container">
+                <img src="cover.jpg" alt="書名" class="book-cover">
+            </div>
+            
+            <div class="book-info">
+                <h2 class="book-title">書名範例：安邦立業先守成 (上)</h2>
+                <div class="book-price">NTD. 250元</div>
+                
+                <div class="tags">
+                    <span class="tag-highlight">TAG：</span>現代都市、耽美、雙向暗戀
+                </div>
+
+                <p class="book-desc">
+                    這裡是書籍簡介區塊。
+                    模仿原本網站的排版，文字會顯示在右側，適合放入較長的試閱文案。
+                    
+                    「只要你敢要，那就有。」
+                    
+                    陳守安在泳池進了一間傳說中...（此處省略一萬字）
+                </p>
+
+                <a href="https://famistore.famiport.com.tw/..." target="_blank" class="buy-link">
+                    [購買] 前往好賣家頁面
+                </a>
+            </div>
         </div>
 
-    <footer>
-        &copy; 2025 本生燈. All rights reserved.
-    </footer>
+        </div>
 
 </body>
 </html>
+
 
 
 
