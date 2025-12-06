@@ -3,238 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLORY BOOKS | 本生燈</title>
+    <title>凱薩GLORY - 書籍列表</title>
     <style>
-        /* ==================== */
-        /* CSS 樣式區       */
-        /* ==================== */
-        
+        /* --- 全局設定 --- */
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #2f2f2f;
             margin: 0;
             padding: 0;
-            letter-spacing: 0.5px;
+            background-color: #262626; /* 深灰背景 */
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            color: #ddd;
         }
 
-        /* Header */
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        /* --- 頂部導航欄 (Header) --- */
         header {
-            padding: 40px 20px;
-            text-align: center;
-            background-color: #fff;
-            border-bottom: 1px solid #f5f5f5;
-            margin-bottom: 40px;
-        }
-        .site-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-        .nav-menu {
-            font-size: 0.75rem;
-            color: #888;
-            letter-spacing: 1.5px;
-            margin-top: 10px;
-        }
-
-        /* 容器設定 */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px 60px 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 1:1 等寬 */
-            gap: 40px; /* 稍微縮小書之間的間距 */
-            align-items: start;
-        }
-
-        /* 單本書籍卡片 */
-        .book-item {
             display: flex;
-            flex-direction: row;
-            gap: 25px; /* 拉大圖文之間的間距，因為圖變大了 */
-            border-bottom: 1px solid #eee;
-            padding-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            border-bottom: 1px solid #333;
         }
 
-        /* 左側圖片容器 - 【關鍵修改：加大寬度】 */
-        .book-cover-container {
-            flex: 0 0 220px; /* 從 130px 改為 220px，讓圖變大很多 */
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d4af37; /* 金色 */
+            display: flex;
+            align-items: center;
+        }
+        .logo span { margin-right: 5px; font-family: serif; font-size: 32px; }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav ul li a {
+            font-size: 16px;
+            color: #ccc;
+            transition: color 0.3s;
         }
         
-        .book-cover {
-            width: 100%;
-            height: auto;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.1); /* 陰影稍微加重一點點 */
-            display: block;
+        nav ul li a.active {
+            color: #ff7f50; /* 標示當前頁面顏色 */
+            border-bottom: 2px solid #ff7f50;
+            padding-bottom: 5px;
         }
 
-        /* 右側文字資訊 */
-        .book-info {
-            flex: 1;
+        nav ul li a:hover { color: #fff; }
+
+        /* --- 主要內容區 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- 分類圖標區 (Icons) --- */
+        .category-icons {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 25px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .icon-item {
             display: flex;
             flex-direction: column;
-            min-width: 0;
-            justify-content: center; /* 讓文字區塊在垂直方向上居中於圖片旁邊 */
+            align-items: center;
+            cursor: pointer;
         }
 
-        /* 書名 - 【修改：縮小字體與間距】 */
-        .book-title {
-            font-size: 1.0rem; /* 縮小 */
-            font-weight: 700;
-            color: #000;
-            margin: 0 0 3px 0; /* 緊縮間距 */
-            line-height: 1.3;
-        }
-
-        /* 價格 - 【修改：縮小字體與間距】 */
-        .book-price {
-            font-family: Georgia, serif;
-            font-size: 0.85rem; /* 縮小 */
-            color: #666;
-            margin-bottom: 8px; /* 緊縮間距 */
-            font-style: italic;
-        }
-
-        /* TAG - 【修改：緊縮間距】 */
-        .tags {
-            font-size: 0.7rem;
-            color: #888;
-            margin-bottom: 10px; /* 緊縮間距 */
-        }
-        .tag-highlight {
-            color: #000;
+        .circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
             font-weight: bold;
+            font-family: serif;
+            margin-bottom: 8px;
+            background: transparent;
         }
 
-        /* 內文描述 - 【關鍵修改：縮小字體與行高，讓文案變矮】 */
+        .icon-label { font-size: 12px; color: #aaa; }
+
+        /* 各個圖標的顏色設定 */
+        .c-yellow { border-color: #ffcc00; color: #ffcc00; }
+        .c-yellow + .icon-label { color: #ffcc00; }
+
+        .c-white { border-color: #ddd; color: #ddd; }
+        .c-white + .icon-label { color: #ddd; }
+
+        .c-purple { border-color: #a020f0; color: #a020f0; }
+        .c-purple + .icon-label { color: #a020f0; }
+
+        .c-blue { border-color: #00bfff; color: #00bfff; }
+        .c-blue + .icon-label { color: #00bfff; }
+
+        .c-red { border-color: #ff6347; color: #ff6347; }
+        .c-red + .icon-label { color: #ff6347; }
+
+        .c-green { border-color: #9acd32; color: #9acd32; }
+        .c-green + .icon-label { color: #9acd32; }
+
+        /* 右側切換按鈕 (文字版/圖片版) */
+        .view-toggle {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            display: flex;
+            gap: 15px;
+        }
+        .toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ff7f50;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .toggle-icon {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ff7f50;
+            display: inline-block;
+        }
+
+        /* --- 標籤區 (Tags) --- */
+        .tags-section {
+            margin-bottom: 50px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tag-label {
+            color: #ff7f50;
+            font-size: 16px;
+            margin-right: 15px;
+            margin-top: 6px; /* Align with buttons */
+            font-family: serif; 
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .tag-btn {
+            background: transparent;
+            border: 1px solid #ff7f50; /* 橘色邊框 */
+            color: #ff7f50;
+            padding: 4px 15px;
+            border-radius: 20px; /* 藥丸形狀 */
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tag-btn.highlight {
+            color: #ffcc00; /* 黃色高亮文字 */
+            border-color: #ffcc00;
+        }
+
+        .tag-btn:hover {
+            background: rgba(255, 127, 80, 0.1);
+        }
+
+        /* --- 書籍列表 (Grid Layout) --- */
+        .book-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 兩欄 */
+            gap: 40px;
+        }
+
+        .book-card {
+            background: transparent;
+        }
+
+        .book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .book-icon {
+            color: #00bfff;
+            border: 1px solid #00bfff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        .book-title {
+            color: #00bfff; /* 亮藍色標題 */
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .book-price {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .divider {
+            border-top: 1px dotted #00bfff;
+            margin: 10px 0;
+            opacity: 0.5;
+        }
+
+        .book-meta {
+            color: #00bfff;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .book-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .book-cover {
+            width: 140px;
+            height: 200px;
+            background-color: #ddd; /* 圖片佔位符 */
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
         .book-desc {
-            font-size: 0.8rem; /* 縮小字體 */
-            line-height: 1.5;  /* 緊縮行高 */
-            color: #555;
-            margin-bottom: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
             text-align: justify;
         }
-
-        /* 按鈕區塊 */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: auto;
+        
+        .quote {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
         }
 
-        /* 按鈕 - 【修改：縮小字體與厚度】 */
-        .btn {
-            flex: 1;
-            padding: 6px 0; /* 按鈕變扁一點 */
-            font-size: 0.7rem; /* 字變小 */
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.2s;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-            border: 1px solid #000;
-        }
-
-        .btn-buy { background-color: #000; color: #fff; }
-        .btn-buy:hover { background-color: #444; border-color: #444; }
-
-        .btn-info { background-color: transparent; color: #000; }
-        .btn-info:hover { background-color: #000; color: #fff; }
-
-        /* 手機版設定 */
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr; /* 變成單欄 */
-                gap: 50px;
-            }
-            .book-item {
-                flex-direction: column; /* 手機版改回直排，不然圖太大會擠爆 */
-                align-items: center;
-            }
-            .book-cover-container {
-                 flex: 0 0 auto;
-                 width: 180px; /* 手機版圖片寬度 */
-            }
-            .book-info {
-                text-align: center; /* 手機版文字置中 */
-            }
-            .book-desc {
-                text-align: left; /* 內文還是靠左讀起來比較順 */
-            }
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="site-title">GLORY BOOKS | 本生燈</div>
-        <div class="nav-menu">HOME &nbsp;/&nbsp; BOOKS &nbsp;/&nbsp; ABOUT</div>
+        <div class="logo"><span>⚜</span> 凱薩GLORY</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#" class="active">Books</a></li>
+                <li><a href="#">Merch</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Activity</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <div class="container">
-
-        <div class="book-item">
-            <div class="book-cover-container">
-                <img src="cover.jpg" alt="安邦立業先守成 上" class="book-cover">
+        <section class="category-icons">
+            <div class="icon-item">
+                <div class="circle c-yellow">震</div>
+                <span class="icon-label">綜合其他</span>
             </div>
-            
-            <div class="book-info">
-                <h2 class="book-title">安邦立業先守成 (上)</h2>
-                <div class="book-price">NTD. 250元</div>
-                <div class="tags"><span class="tag-highlight">TAG：</span>現代都市、耽美</div>
+            <div class="icon-item">
+                <div class="circle c-white">諱</div>
+                <span class="icon-label">黑色驚悚</span>
+            </div>
+            <div class="icon-item">
+                <div class="circle c-purple">異</div>
+                <span class="icon-label">架空背景</span>
+            </div>
+            <div class="icon-item">
+                <div class="circle c-blue">職</div>
+                <span class="icon-label">現代都市</span>
+            </div>
+            <div class="icon-item">
+                <div class="circle c-red">鑑</div>
+                <span class="icon-label">推理軍情</span>
+            </div>
+            <div class="icon-item">
+                <div class="circle c-green">誌</div>
+                <span class="icon-label">羅馬假期</span>
+            </div>
 
-                <p class="book-desc">
-                    「只要你敢要，那就有。」
-                    <br><br>
-                    陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現砲友竟是某大公司董事長吳立業。兩人性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。
-                    <br><br>
-                    一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會在新年時互祝平安。
-                    <br><br>
-                    曖昧朦朧的關係如何延伸到未來？ 陳守安遲疑於兩人之間的年齡與社會地位差距，而男人卻告訴他，「只要你敢要，那就有。」
-                </p>
+            <div class="view-toggle">
+                <div class="toggle-btn"><span class="toggle-icon"></span> 文字版</div>
+                <div class="toggle-btn"><span class="toggle-icon"></span> 圖片版</div>
+            </div>
+        </section>
 
-                <div class="action-buttons">
-                    <a href="https://famistore.famiport.com.tw/users/1615631/merchandise/2774242" target="_blank" class="btn btn-buy">購 買</a>
-                    <a href="#" class="btn btn-info">資訊頁</a>
+        <section class="tags-section">
+            <div class="tag-label">TAG:</div>
+            <div class="tag-list">
+                <button class="tag-btn highlight">全部作品</button>
+                <button class="tag-btn">莫斯卡托</button>
+                <button class="tag-btn">本生燈</button>
+                <div style="width: 100%; height: 5px;"></div> <button class="tag-btn">耽美</button>
+                <button class="tag-btn">一般向</button>
+                <button class="tag-btn">穿越</button>
+                <button class="tag-btn">演藝圈</button>
+                <button class="tag-btn">軍警</button>
+                <button class="tag-btn">懸疑推理</button>
+                <button class="tag-btn">現代都市</button>
+                <button class="tag-btn">歐美風</button>
+                <button class="tag-btn">強強</button>
+                <button class="tag-btn">雙性生子</button>
+                <button class="tag-btn">奇幻架空</button>
+                <div style="width: 100%; height: 5px;"></div>
+                <button class="tag-btn">星際</button>
+                <button class="tag-btn">骨科</button>
+                <button class="tag-btn">年下</button>
+                <button class="tag-btn">ABO</button>
+                <button class="tag-btn">人外</button>
+            </div>
+        </section>
+
+        <section class="book-grid">
+            <article class="book-card">
+                <div class="book-header">
+                    <div>
+                        <span class="book-icon">職</span>
+                        <span class="book-title">安邦立業先守成 上</span>
+                    </div>
+                    <span class="book-price">NTD.250元</span>
                 </div>
-            </div>
-        </div>
-        <div class="book-item">
-            <div class="book-cover-container">
-                <img src="cover2.jpg" alt="安邦立業先守成 下" class="book-cover">
-            </div>
-            
-            <div class="book-info">
-                <h2 class="book-title">安邦立業先守成 (下)</h2>
-                <div class="book-price">NTD. 250元</div>
-                <div class="tags"><span class="tag-highlight">TAG：</span>甜寵、雙向暗戀</div>
-
-                <p class="book-desc">
-                    「喜歡嗎？我認為這兩個字還不夠，不能完整表達我的感情。我想要的是，看你站得更高，飛得更遠，活得更自由。」
-                    <br><br>
-                    隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。
-                    <br><br>
-                    但人生哪能不起波折，只求有緣人同舟共渡。
-                    如果提出要求就能被實現，那陳守安只有一個要求。
-                    <br><br>
-                    「我喜歡聽你說喜歡我。」
-                    <br><br>
-                    而吳立業所能給的，比一個更多。
-                </p>
-
-                <div class="action-buttons">
-                    <a href="https://famistore.famiport.com.tw/users/1615631/merchandise/2774242" target="_blank" class="btn btn-buy">購 買</a>
-                    <a href="#" class="btn btn-info">資訊頁</a>
+                <div class="divider"></div>
+                <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
+                <div class="book-content">
+                    <img src="https://via.placeholder.com/140x200/e0e0e0/888888?text=Cover" alt="封面" class="book-cover">
+                    <div class="book-desc">
+                        <span class="quote">「只要你敢要，那就有。」</span>
+                        陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現跑友竟是某大公司董事長吳立業。兩性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。
+                        <br><br>
+                        一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會...
+                    </div>
                 </div>
-            </div>
-        </div>
-        </div> </body>
+            </article>
+
+            <article class="book-card">
+                <div class="book-header">
+                    <div>
+                        <span class="book-icon">職</span>
+                        <span class="book-title">安邦立業先守成 下</span>
+                    </div>
+                    <span class="book-price">NTD.250元</span>
+                </div>
+                <div class="divider"></div>
+                <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
+                <div class="book-content">
+                    <img src="https://via.placeholder.com/140x200/e0e0e0/888888?text=Cover" alt="封面" class="book-cover">
+                    <div class="book-desc">
+                        <span class="quote">「喜歡嗎？我認為這兩個字還不夠，不能完整表達我的感情。我想要的是，看你站得更高，飛得更遠，活得更自由。」</span>
+                        隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。
+                        <br><br>
+                        但人生哪能不起波折，只求有緣人同舟共渡。
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+
+</body>
 </html>
+
 
 
 
