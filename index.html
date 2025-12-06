@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本生燈的作品集 | Bunsen Burner Books</title>
-<style>
-        /* 1. 網頁全域設定 */
+    <title>GLORY BOOKS | 本生燈</title>
+    <style>
+        /* ==================== */
+        /* CSS 樣式區       */
+        /* ==================== */
+        
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: #ffffff;
@@ -15,15 +18,16 @@
             letter-spacing: 0.5px;
         }
 
-        /* 頁首 Header */
+        /* Header */
         header {
             padding: 40px 20px;
             text-align: center;
             background-color: #fff;
             border-bottom: 1px solid #f5f5f5;
+            margin-bottom: 40px;
         }
         .site-title {
-            font-size: 1.5rem; /* 標題也稍微縮小 */
+            font-size: 1.5rem;
             font-weight: 700;
             color: #000;
             letter-spacing: 3px;
@@ -36,49 +40,51 @@
             margin-top: 10px;
         }
 
-        /* 2. 內容容器：雙欄網格 (兩本書並排) */
+        /* 關鍵：兩本書並排的容器 */
         .container {
-            max-width: 1100px; /* 寬度拉寬一點，讓並排不擁擠 */
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 0 20px 60px 20px;
             
-            /* Grid 設定 */
+            /* Grid 網格設定：左右兩欄 */
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 左右各一半 */
-            column-gap: 40px; /* 兩本書中間的空隙 */
-            row-gap: 60px; /* 上下排書籍的空隙 */
+            grid-template-columns: 1fr 1fr; /* 1:1 等寬 */
+            gap: 50px; /* 書與書之間的間距 */
+            align-items: start; /* 靠上對齊 */
         }
 
-        /* 3. 書籍卡片內部：左圖右文 (Flex) */
+        /* 單本書籍卡片：左圖右文 */
         .book-item {
             display: flex;
-            flex-direction: row; /* 強制橫排 */
-            align-items: flex-start; /* 靠上對齊 */
-            gap: 20px; /* 圖跟文的距離 */
+            flex-direction: row; /* 橫向排列 */
+            gap: 20px; /* 圖文間距 */
+            border-bottom: 1px solid #eee; /* 底部加一條淡淡的分隔線 */
+            padding-bottom: 30px; /* 跟分隔線的距離 */
         }
 
-        /* 圖片容器：設定縮小的固定寬度 */
+        /* 左側圖片容器 */
         .book-cover-container {
-            flex: 0 0 130px; /* 固定圖片寬度為 130px (很精緻的大小) */
+            flex: 0 0 130px; /* 固定寬度 130px */
         }
         
         .book-cover {
             width: 100%;
-            height: auto; /* 高度自動，保持比例 */
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            height: auto;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
             display: block;
         }
 
-        /* 右側文字資訊：佔滿剩餘空間 */
+        /* 右側文字資訊 */
         .book-info {
-            flex: 1;
+            flex: 1; /* 佔滿剩餘空間 */
             display: flex;
             flex-direction: column;
+            min-width: 0; /* 防止文字過長撐爆版面 */
         }
 
-        /* 書名：縮小字體 */
+        /* 書名 */
         .book-title {
-            font-size: 1.1rem; /* 精緻化標題 */
+            font-size: 1.1rem;
             font-weight: 700;
             color: #000;
             margin: 0 0 5px 0;
@@ -94,45 +100,46 @@
             font-style: italic;
         }
 
-        /* TAG 標籤區 */
+        /* TAG */
         .tags {
-            font-size: 0.7rem; /* 縮很小 */
+            font-size: 0.7rem;
             color: #888;
             margin-bottom: 12px;
-            line-height: 1.4;
         }
         .tag-highlight {
             color: #000;
             font-weight: bold;
         }
 
-        /* 內文描述：縮小並限制行數 */
+        /* 內文描述 */
         .book-desc {
-            font-size: 0.85rem; /* 小字體 */
+            font-size: 0.85rem;
             line-height: 1.6;
             color: #555;
-            margin-bottom: 15px;
-            text-align: justify; /* 左右對齊讓方塊更好看 */
+            margin-bottom: 20px;
+            text-align: justify;
             
-            /* 超過 5 行就隱藏 (選用，讓版面整齊) */
+            /* 這裡我移除了自動隱藏的設定，讓你的完整文案可以顯示出來 */
+            /* 如果覺得文字太長想隱藏，可以把下面這三行解開註解 */
+            /*
             display: -webkit-box;
-            -webkit-line-clamp: 5;
+            -webkit-line-clamp: 8;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            */
         }
 
-        /* 4. 按鈕區塊：並排且縮小 */
+        /* 按鈕區塊 */
         .action-buttons {
             display: flex;
-            gap: 8px; /* 按鈕間距縮小 */
-            margin-top: auto; /* 將按鈕推到底部對齊 */
+            gap: 8px;
+            margin-top: auto; /* 推到底部 */
         }
 
-        /* 按鈕樣式：微縮版 */
         .btn {
-            flex: 1; /* 兩個按鈕平均分配寬度 */
-            padding: 8px 0; /* 高度變矮 */
-            font-size: 0.75rem; /* 字變小 */
+            flex: 1;
+            padding: 8px 0;
+            font-size: 0.75rem;
             text-align: center;
             text-decoration: none;
             transition: all 0.2s;
@@ -142,41 +149,21 @@
             border: 1px solid #000;
         }
 
-        /* 購買按鈕 */
-        .btn-buy {
-            background-color: #000;
-            color: #fff;
-        }
-        .btn-buy:hover {
-            background-color: #444;
-            border-color: #444;
-        }
+        .btn-buy { background-color: #000; color: #fff; }
+        .btn-buy:hover { background-color: #444; border-color: #444; }
 
-        /* 資訊頁按鈕 */
-        .btn-info {
-            background-color: transparent;
-            color: #000;
-        }
-        .btn-info:hover {
-            background-color: #000;
-            color: #fff;
-        }
+        .btn-info { background-color: transparent; color: #000; }
+        .btn-info:hover { background-color: #000; color: #fff; }
 
-        /* 手機版 RWD：手機上改回一欄，但保持左圖右文 */
+        /* 手機版設定 */
         @media (max-width: 768px) {
             .container {
-                grid-template-columns: 1fr; /* 變回一欄 */
-                gap: 40px;
-            }
-            .book-cover-container {
-                flex: 0 0 110px; /* 手機上圖片再小一點 */
+                grid-template-columns: 1fr; /* 變成單欄 */
             }
         }
     </style>
 </head>
 <body>
-
- <body>
 
     <header>
         <div class="site-title">GLORY BOOKS | 本生燈</div>
@@ -184,67 +171,63 @@
     </header>
 
     <div class="container">
-        
+
         <div class="book-item">
             <div class="book-cover-container">
-                <img src="cover.jpg" alt="書名" class="book-cover">
+                <img src="cover.jpg" alt="安邦立業先守成 上" class="book-cover">
             </div>
             
             <div class="book-info">
-                <h2 class="book-title">書名範例：安邦立業先守成 (上)</h2>
+                <h2 class="book-title">安邦立業先守成 (上)</h2>
                 <div class="book-price">NTD. 250元</div>
-                
-                <div class="tags">
-                    <span class="tag-highlight">TAG：</span>現代都市、耽美、雙向暗戀
-                </div>
+                <div class="tags"><span class="tag-highlight">TAG：</span>現代都市、耽美</div>
 
                 <p class="book-desc">
-                    陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現砲友竟是某大公司董事長吳立業。
-                    兩人性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。
-                    一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，
-                    他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會在新年時互祝平安。
-                    曖昧朦朧的關係如何延伸到未來？
-                    陳守安遲疑於兩人之間的年齡與社會地位差距，而男人卻告訴他，「只要你敢要，那就有。」
+                    「只要你敢要，那就有。」
+                    <br><br>
+                    陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現砲友竟是某大公司董事長吳立業。兩人性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。
+                    <br><br>
+                    一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會在新年時互祝平安。
+                    <br><br>
+                    曖昧朦朧的關係如何延伸到未來？ 陳守安遲疑於兩人之間的年齡與社會地位差距，而男人卻告訴他，「只要你敢要，那就有。」
                 </p>
 
-                <a href="https://famistore.famiport.com.tw/..." target="_blank" class="buy-link">
-                    [購買] 前往好賣家頁面
-                </a>
+                <div class="action-buttons">
+                    <a href="https://famistore.famiport.com.tw/..." target="_blank" class="btn btn-buy">購 買</a>
+                    <a href="#" class="btn btn-info">資訊頁</a>
+                </div>
             </div>
         </div>
-
-        </div>
-<div class="book-item">
+        <div class="book-item">
             <div class="book-cover-container">
                 <img src="cover2.jpg" alt="安邦立業先守成 下" class="book-cover">
             </div>
             
             <div class="book-info">
-                <h2 class="book-title">安邦立業先守成 下</h2>
+                <h2 class="book-title">安邦立業先守成 (下)</h2>
                 <div class="book-price">NTD. 250元</div>
-                
-                <div class="tags">
-                    <span class="tag-highlight">TAG：</span>現代都市、耽美、雙向暗戀、甜寵
-                </div>
+                <div class="tags"><span class="tag-highlight">TAG：</span>甜寵、雙向暗戀</div>
 
                 <p class="book-desc">
                     「喜歡嗎？我認為這兩個字還不夠，不能完整表達我的感情。我想要的是，看你站得更高，飛得更遠，活得更自由。」
-                    
-                    隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。
-                    選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。
-                    另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。
+                    <br><br>
+                    隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。
+                    <br><br>
                     但人生哪能不起波折，只求有緣人同舟共渡。
                     如果提出要求就能被實現，那陳守安只有一個要求。
+                    <br><br>
                     「我喜歡聽你說喜歡我。」
+                    <br><br>
                     而吳立業所能給的，比一個更多。
                 </p>
 
-                <a href="https://famistore.famiport.com.tw/users/1615631/merchandise/2774242" target="_blank" class="buy-link">
-                    [購買] 前往好賣家頁面
-                </a>
+                <div class="action-buttons">
+                    <a href="https://famistore.famiport.com.tw/..." target="_blank" class="btn btn-buy">購 買</a>
+                    <a href="#" class="btn btn-info">資訊頁</a>
+                </div>
             </div>
         </div>
-</body>
+        </div> </body>
 </html>
 
 
