@@ -3,406 +3,583 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>莫斯卡托 Moscato - 作品頁面</title>
+    <title>凱薩GLORY - 官方網站</title>
     <style>
-        /* 全局設定 */
-        body {
-            background-color: #262626; /* 深鐵灰背景 */
-            color: #ddd;
-            font-family: "Noto Serif TC", "Songti TC", serif; /* 襯線字體營造文學感 */
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+        /* --- 全局變數 --- */
+        :root {
+            --bg-color: #262626;
+            --text-color: #ddd;
+            --accent-gold: #d4af37;
+            --accent-orange: #ff7f50;
+            --theme-blue: #00bfff;
+            --theme-green: #9acd32;
+            --theme-purple: #a020f0;
+            --theme-red: #ff4500;
+            --theme-black: #bbb;
+            --theme-yellow: #ffcc00;
         }
+        body { margin: 0; padding: 0; background-color: var(--bg-color); font-family: "Noto Serif TC", "Microsoft JhengHei", serif; color: var(--text-color); box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; cursor: pointer; transition: 0.3s; }
+        a:hover { color: var(--accent-orange); }
+        ul { list-style: none; padding: 0; margin: 0; }
+        * { box-sizing: border-box; }
 
-        a {
-            text-decoration: none;
-            color: #d4af37; /* 金色連結 */
-            transition: 0.3s;
-        }
+        /* --- 導航欄 --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; border-bottom: 1px solid #333; background: #1a1a1a; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--accent-gold); display: flex; align-items: center; }
+        .logo span { margin-right: 5px; font-family: serif; font-size: 28px; }
+        nav ul { display: flex; gap: 25px; }
+        nav ul li a { font-size: 15px; color: #ccc; }
+        nav ul li a.active { color: var(--accent-orange); border-bottom: 2px solid var(--accent-orange); padding-bottom: 5px; }
+        .login-btn { border: 1px solid #555; padding: 4px 10px; border-radius: 4px; font-size: 12px; color: #888; }
 
-        a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
+        /* --- 頁面切換 --- */
+        .page-section { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.5s; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+        /* --- 首頁 --- */
+        .hero-carousel { width: 100%; height: 450px; background: #000; position: relative; overflow: hidden; margin-bottom: 30px; border-bottom: 1px solid #444; }
+        .carousel-slide { width: 100%; height: 100%; position: absolute; opacity: 0; transition: opacity 1s; background-size: cover; background-position: center; display: flex; align-items: flex-end; justify-content: center; }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-caption { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 30px; color: #fff; width: 100%; text-align: center; font-size: 24px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .news-section { background: #333; padding: 20px 30px; border-left: 4px solid var(--accent-gold); margin-top: 20px; }
+        .news-title { color: var(--accent-gold); font-size: 20px; margin-bottom: 10px; border-bottom: 1px dashed #555; padding-bottom: 5px; }
 
-        /* 標題區 */
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-            border-bottom: 1px solid #d4af37;
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            margin: 0;
-        }
-
-        /* 個人簡介區塊 (三欄佈局) */
-        .profile-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 60px;
-            gap: 20px;
-        }
-
-        /* 左側：頭像 */
-        .profile-avatar {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-        }
-
-        .avatar-circle {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 2px solid #d4af37;
-            object-fit: cover;
-            background-color: #333; /* 圖片載入前的底色 */
-        }
-
-        /* 中間：簡介 */
-        .profile-bio {
-            flex: 2;
-            min-width: 300px;
-            padding: 0 20px;
-            font-size: 0.95rem;
-        }
+        /* --- 書籍頁 --- */
+        .category-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+        .icon-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; margin-bottom: 5px; font-family: serif; }
+        .icon-label { font-size: 12px; color: #aaa; letter-spacing: 1px; }
         
-        .profile-bio h3 {
-            color: #d4af37;
-            margin-top: 0;
-        }
+        .c-yellow { border-color: var(--theme-yellow); color: var(--theme-yellow); }
+        .c-black { border-color: var(--theme-black); color: var(--theme-black); }
+        .c-purple { border-color: var(--theme-purple); color: var(--theme-purple); }
+        .c-blue { border-color: var(--theme-blue); color: var(--theme-blue); }
+        .c-red { border-color: var(--theme-red); color: var(--theme-red); }
+        .c-green { border-color: var(--theme-green); color: var(--theme-green); }
 
-        .social-links {
-            margin-top: 20px;
-        }
+        .tags-section { margin-bottom: 40px; display: flex; align-items: flex-start; }
+        .tag-label { color: var(--accent-orange); font-size: 16px; margin-right: 15px; margin-top: 6px; font-family: serif; flex-shrink: 0; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
         
-        .social-links a {
-            display: inline-block;
-            margin-right: 15px;
-            color: #f3d77e;
-            font-weight: bold;
+        .tag-btn { 
+            background: transparent; border: 1px solid var(--accent-orange); color: var(--accent-orange); 
+            padding: 4px 12px; 
+            border-radius: 6px; 
+            font-size: 13px; cursor: pointer; transition: 0.3s; 
+            white-space: nowrap; 
         }
+        .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
+        .tag-btn.active { background: var(--accent-orange); color: #000; }
+        .break { flex-basis: 100%; height: 0; }
 
-        /* 右側：連結列表 */
-        .profile-links {
-            flex: 2;
-            display: flex;
-            justify-content: space-between;
-            min-width: 300px;
-            font-size: 0.9rem;
-        }
-
-        .link-column h4 {
-            color: #ff9e80; /* 粉橘色標題 */
-            border-bottom: 1px dashed #555;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .link-column ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .link-column li {
-            margin-bottom: 5px;
-        }
-
-        .link-column a {
-            color: #f3d77e; /* 淺金 */
-        }
-
-        /* 裝飾線 (分隔線) */
-        .section-separator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 60px 0 40px 0;
-            color: #ff9e80; /* 粉橘色 */
-        }
-
-        .section-separator::before,
-        .section-separator::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background-color: #ff9e80;
-            margin: 0 20px;
-        }
+        .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 50px; }
+        .book-card { display: flex; flex-direction: column; padding-bottom: 25px; border-bottom: 1px solid transparent; }
         
-        /* 模擬箭頭效果 */
-        .section-separator::before {
-            margin-right: 10px;
-            clip-path: polygon(0 50%, 10px 0, 10px 100%, 0 50%, 100% 50%, 100% 51%, 0 51%); 
-            /* 簡易版：若clip-path不支援，會顯示直線 */
-        }
+        .theme-blue { border-bottom-color: var(--theme-blue); } .theme-blue .t-color { color: var(--theme-blue); border-color: var(--theme-blue); }
+        .theme-green { border-bottom-color: var(--theme-green); } .theme-green .t-color { color: var(--theme-green); border-color: var(--theme-green); }
+        .theme-purple { border-bottom-color: var(--theme-purple); } .theme-purple .t-color { color: var(--theme-purple); border-color: var(--theme-purple); }
+        .theme-red { border-bottom-color: var(--theme-red); } .theme-red .t-color { color: var(--theme-red); border-color: var(--theme-red); }
+        .theme-black { border-bottom-color: var(--theme-black); } .theme-black .t-color { color: var(--theme-black); border-color: var(--theme-black); }
+        .theme-yellow { border-bottom-color: var(--theme-yellow); } .theme-yellow .t-color { color: var(--theme-yellow); border-color: var(--theme-yellow); }
 
-        .separator-text {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            position: relative;
-        }
+        .book-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+        .book-icon { border: 1px solid; border-radius: 50%; width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 5px; font-size: 14px; }
+        .book-title { font-size: 20px; }
+        .book-price { color: #fff; font-size: 16px; }
+        .divider { border-top: 1px dotted; margin: 10px 0; opacity: 0.7; }
+        .book-meta { font-size: 12px; margin-bottom: 15px; }
+        .book-content { display: flex; gap: 20px; margin-bottom: 15px; }
+        .book-cover { width: 140px; height: 200px; background: #444; object-fit: cover; flex-shrink: 0; }
+        .book-desc { font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; }
+        .author-name { color: #888; font-size: 13px; margin-bottom: 15px; }
+        .action-buttons { display: flex; gap: 15px; margin-top: auto; }
+        .btn { flex: 1; padding: 10px 0; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; }
+        .btn-buy { background: #fa8072; color: #fff; }
+        .btn-info { background: #f4d03f; color: #333; }
+
+        /* --- 作者總覽頁 (About) --- */
+        .authors-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .author-card { background: #222; padding: 30px; border-radius: 10px; border-top: 3px solid transparent; transition:0.3s; }
+        .author-card:hover { transform: translateY(-5px); border-top-color: var(--accent-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         
-        /* 加強箭頭視覺 (用文字符號輔助) */
-        .separator-text::before { content: '◄ '; font-size: 0.8em; margin-right: 10px; }
-        .separator-text::after { content: ' ►'; font-size: 0.8em; margin-left: 10px; }
+        .ac-header { text-align: center; margin-bottom: 20px; cursor: pointer; }
+        .ac-avatar { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--accent-gold); object-fit: cover; margin-bottom: 10px; }
+        .ac-name { color: var(--accent-gold); font-size: 22px; font-weight: bold; }
+        
+        .ac-list-section { margin-bottom: 20px; }
+        .ac-list-title { color: var(--accent-orange); font-size: 14px; font-weight: bold; margin-bottom: 10px; border-left: 3px solid var(--accent-orange); padding-left: 8px; }
+        .ac-list ul { font-size: 13px; color: #ccc; line-height: 1.8; }
+        .ac-list li { margin-bottom: 4px; }
 
-        /* 作品網格 (純文字) */
-        .text-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
+        /* --- 作者詳情頁 (Detail Page) --- */
+        .author-detail-header { display: flex; gap: 40px; margin-bottom: 30px; background: #222; padding: 30px; border-radius: 10px; align-items: flex-start; }
+        .ad-avatar { width: 160px; height: 160px; border-radius: 50%; border: 3px solid var(--accent-gold); object-fit: cover; flex-shrink: 0; }
+        .ad-info { flex: 1; }
+        .ad-name { font-size: 28px; color: var(--accent-gold); margin-bottom: 10px; font-weight: bold; }
+        .ad-bio { font-size: 14px; color: #ccc; line-height: 1.8; margin-bottom: 20px; white-space: pre-line; }
+        
+        /* 本生燈專屬佈局: 左側公告+右側連結 */
+        .bunsen-layout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; margin-bottom: 40px; }
+        
+        /* 連結區塊 */
+        .links-wrapper { background: #2a2a2a; padding: 20px; border-radius: 10px; }
+        .links-group { margin-bottom: 20px; border-bottom: 1px dashed #444; padding-bottom: 10px; }
+        .links-group:last-child { border-bottom: none; }
+        .lg-title { color: var(--accent-orange); font-size: 15px; font-weight: bold; margin-bottom: 8px; }
+        .lg-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .lg-list li a { color: var(--theme-yellow); font-size: 13px; text-decoration: none; }
+        .lg-list li a:hover { text-decoration: underline; color: #fff; }
 
-        .work-item-text h3 {
-            color: #f3d77e; /* 作品名金色 */
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
+        /* 電子報 */
+        .newsletter-box { background: #333; padding: 15px; border-radius: 8px; margin-top: 10px; text-align: center; border: 1px dashed var(--accent-orange); }
+        .newsletter-title { color: var(--accent-orange); font-size: 18px; margin-bottom: 5px; font-weight: bold; }
+        .newsletter-desc { font-size: 12px; color: #aaa; margin-bottom: 10px; }
+        .newsletter-input { width: 100%; padding: 6px; border-radius: 4px; border: none; margin-bottom: 5px; box-sizing: border-box;}
+        .newsletter-btn { width: 100%; background: var(--accent-orange); color: white; padding: 6px; border: none; border-radius: 4px; cursor: pointer; }
 
-        .work-tags {
-            font-size: 0.85rem;
-            color: #aaa;
-        }
+        /* 公告與紀錄 */
+        .announce-section h3 { color: #fff; font-size: 16px; margin-bottom: 10px; border-left: 3px solid #fff; padding-left: 10px;}
+        .announce-content { color: #ccc; font-size: 14px; line-height: 1.8; white-space: pre-line; margin-bottom: 30px; }
+        .highlight-text { color: var(--theme-yellow); font-weight: bold; }
 
-        /* 作品網格 (封面圖) */
-        .cover-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 40px 20px;
-            text-align: center;
-        }
+        /* 宇宙區塊 */
+        .universe-section { border-top: 1px solid var(--accent-orange); border-bottom: 1px solid var(--accent-orange); margin: 40px 0; padding: 30px 0; text-align: center; }
+        .universe-links { display: flex; justify-content: center; gap: 20px; }
+        .u-btn { border: 1px solid #fff; color: #fff; padding: 8px 25px; border-radius: 20px; font-size: 14px; transition: 0.3s; cursor: pointer;}
+        .u-btn:hover { background: #fff; color: #000; }
 
-        .work-item-cover img {
-            width: 100%;
-            max-width: 180px;
-            height: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-            margin-bottom: 10px;
-        }
+        /* 作品列表 */
+        .section-header { text-align: center; margin: 50px 0 30px; position: relative; }
+        .section-header::before, .section-header::after { content: ""; display: inline-block; width: 80px; height: 1px; background: var(--accent-orange); vertical-align: middle; margin: 0 15px; clip-path: polygon(0 50%, 10px 0, 10px 100%, 0 50%, 100% 50%, 100% 51%, 0 51%); }
+        .section-header::after { transform: rotate(180deg); }
+        .section-header span { color: var(--accent-orange); font-size: 16px; letter-spacing: 2px; }
 
-        .work-item-cover img:hover {
-            transform: translateY(-5px);
-        }
+        /* 文字列表 (連載/完結) */
+        .text-work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; text-align: center; }
+        .text-work-item { margin-bottom: 10px; background: #2a2a2a; padding: 15px; border-radius: 8px; }
+        .t-work-title { color: var(--theme-yellow); font-weight: bold; font-size: 16px; display: block; margin-bottom: 8px; border-bottom: 1px dotted #555; padding-bottom: 5px;}
+        .t-work-meta { font-size: 12px; color: #aaa; line-height: 1.6; }
 
-        .work-item-cover h3 {
-            color: #f3d77e;
-            font-size: 1rem;
-            margin: 10px 0 5px 0;
-        }
+        /* 出版封面列表 */
+        .pub-work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 40px; margin-top: 30px; align-items: end;}
+        .pub-work-item { text-align: center; }
+        .pub-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; border: 1px solid #444; margin-bottom: 10px; transition: transform 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        .pub-cover:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
+        .pub-title { font-size: 14px; color: var(--theme-yellow); margin-bottom: 5px; font-weight: bold; line-height: 1.4; }
+        .pub-meta { font-size: 12px; color: #888; }
 
-        .publisher-note {
-            color: #ff6b6b; /* 出版社註記紅色 */
-            font-size: 0.8rem;
-            display: block;
-            margin-top: 5px;
-        }
+        /* --- 後台 --- */
+        .admin-panel { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .admin-panel.active { display: block; }
+        .form-row { display: flex; gap: 20px; margin-bottom: 15px; }
+        .form-group { flex: 1; text-align: left; }
+        .form-control { width: 100%; padding: 8px; background: #333; border: 1px solid #555; color: #fff; }
+        .btn-submit { background: var(--theme-blue); color: white; padding: 10px 20px; border: none; cursor: pointer; width: 100%; margin-top: 10px;}
+        
+        .tab-menu { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .tab-btn { background: transparent; border: 1px solid #555; color: #aaa; padding: 5px 15px; cursor: pointer; }
+        .tab-btn.active { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
 
-        /* 頁尾 */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 60px;
-            border-top: 1px solid #444;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        /* RWD 調整 */
         @media (max-width: 768px) {
-            .profile-section {
-                flex-direction: column;
-                align-items: center;
-            }
-            .profile-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-            .link-column {
-                text-align: center;
-            }
-            .section-separator::before,
-            .section-separator::after {
-                margin: 0 10px;
-            }
+            header { flex-direction: column; gap: 15px; padding: 15px; }
+            .book-grid, .authors-overview, .bunsen-layout-grid { grid-template-columns: 1fr; }
+            .hero-carousel { height: 300px; }
+            .author-detail-header { flex-direction: column; align-items: center; text-align: center; }
+            .universe-links { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>莫斯卡托</h1>
-        </header>
+    <header>
+        <div class="logo"><span>⚜</span> 凱薩GLORY</div>
+        <nav>
+            <ul>
+                <li><a onclick="route('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="route('books')" id="nav-books">Books</a></li>
+                <li><a onclick="route('author')" id="nav-author">About</a></li>
+                <li><a onclick="route('admin')" id="nav-admin" class="login-btn">後台</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="profile-section">
-            <div class="profile-avatar">
-                <img src="avatar-placeholder.jpg" alt="莫斯卡托頭像" class="avatar-circle">
-            </div>
-
-            <div class="profile-bio">
-                <h3>暱稱 酒杯</h3>
-                <p>平常在噗浪走跳玩耍，主要寫耽美，喜歡刑偵、喜歡歐美背景、也喜歡強強和弱強！<br>
-                FC2收錄的文最完整(●´з`)♡</p>
-                
-                <div class="social-links">
-                    <a href="#">✦ 噗浪</a>
-                    <a href="#">✦ Instagram</a>
-                    <a href="#">✦ Facebook</a>
-                </div>
-            </div>
-
-            <div class="profile-links">
-                <div class="link-column">
-                    <h4>【更新處】</h4>
-                    <ul>
-                        <li><a href="#">✦ CxC</a></li>
-                        <li><a href="#">✦ FC2</a></li>
-                        <li><a href="#">✦ 米國度</a></li>
-                        <li><a href="#">✦ 在水裡寫字</a></li>
-                        <li><a href="#">✦ 鏡文學</a></li>
-                        <li><a href="#">✦ vocus方格子</a></li>
-                    </ul>
-                </div>
-                <div class="link-column">
-                    <h4>【實體書】</h4>
-                    <ul>
-                        <li><a href="#">✦ 蝦皮</a></li>
-                        <li><a href="#">✦ 好賣家</a></li>
-                        <li><a href="#">✦ 金石堂</a></li>
-                        <li><a href="#">✦ 葫蘆夏天</a></li>
-                        <li><a href="#">✦ 月見草</a></li>
-                        <li><a href="#">✦ 奸情區</a></li>
-                    </ul>
-                </div>
-                <div class="link-column">
-                    <h4>【電子書】</h4>
-                    <ul>
-                        <li><a href="#">✦ 讀墨</a></li>
-                        <li><a href="#">✦ KOBO</a></li>
-                        <li><a href="#">✦ Pubu</a></li>
-                        <li><a href="#">✦ 博客來</a></li>
-                        <li><a href="#">✦ BOOKWALKER</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div id="home" class="page-section active">
+        <div class="hero-carousel" id="homeCarousel"></div>
+        <div class="news-section">
+            <h2 class="news-title">NEW PUBLICATION - 最新出版資訊</h2>
+            <div id="homeNewsContent"></div>
         </div>
-
-        <div class="section-separator">
-            <span class="separator-text">連載中作品</span>
-        </div>
-
-        <div class="text-grid">
-            <div class="work-item-text">
-                <h3>《當社工怎麼談戀愛》</h3>
-                <div class="work-tags">耽美、現代都市、職場</div>
-            </div>
-            <div class="work-item-text">
-                <h3>《長夜未曉》</h3>
-                <div class="work-tags">耽美、血族、歐美風、中古世紀奇幻</div>
-            </div>
-            <div class="work-item-text">
-                <h3>《願者上鉤》</h3>
-                <div class="work-tags">耽美、現代都市、亂倫、多P</div>
-            </div>
-        </div>
-
-        <div class="section-separator">
-            <span class="separator-text">完結作品</span>
-        </div>
-
-        <div class="text-grid">
-            <div class="work-item-text">
-                <h3>《我們的戰爭》</h3>
-                <div class="work-tags">耽美、歐風、二戰背景</div>
-            </div>
-            <div class="work-item-text">
-                <h3>《胡伊小鎮的托瑪斯家》</h3>
-                <div class="work-tags">耽美、ABO、歐美風、詼諧諷刺</div>
-            </div>
-            <div class="work-item-text">
-                <h3>《不再沉默》</h3>
-                <div class="work-tags">耽美、現代都市、溫馨日常、掰彎直男</div>
-            </div>
-            <div class="work-item-text">
-                <h3>《與君共舞》</h3>
-                <div class="work-tags">現代都市、耽美、掰彎直男</div>
-            </div>
-        </div>
-
-        <div class="section-separator">
-            <span class="separator-text">出書作品</span>
-        </div>
-
-        <div class="cover-grid">
-            <div class="work-item-cover">
-                <img src="cover1.jpg" alt="SCID系列-異鄉人 上冊">
-                <h3>《SCID系列-異鄉人 上冊》</h3>
-                <div class="work-tags">耽美、刑偵、現代都市、歐美風</div>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover2.jpg" alt="SCID系列-異鄉人 下冊">
-                <h3>《SCID系列-異鄉人 下冊》</h3>
-                <div class="work-tags">耽美、刑偵、現代都市、歐美風</div>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover3.jpg" alt="當星星殞落">
-                <h3>《當星星殞落》</h3>
-                <div class="work-tags">耽美、現代都市、強強、掰彎直男</div>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover4.jpg" alt="北之國">
-                <h3>《北之國》</h3>
-                <div class="work-tags">耽美、奇幻架空、雙性生子、甜寵</div>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover5.jpg" alt="絕交進行式">
-                <h3>《絕交進行式》</h3>
-                <div class="work-tags">耽美、現代都市、雙向暗戀</div>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover6.jpg" alt="談愛傷感情">
-                <h3>《談愛傷感情》</h3>
-                <div class="work-tags">耽美、現代都市、年下、炮友轉真愛</div>
-                <span class="publisher-note">※朧月書版出版</span>
-            </div>
-
-            <div class="work-item-cover">
-                <img src="cover7.jpg" alt="北之國-王儲與龍騎士">
-                <h3>《北之國-王儲與龍騎士》<br>(一套兩冊)</h3>
-                <div class="work-tags">耽美、奇幻冒險、雙性生子、先婚後愛</div>
-                <span class="publisher-note">※朧月書版出版</span>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2025 by Moscato. Design inspired by BunsenBurner.</p>
-        </footer>
     </div>
 
+    <div id="books" class="page-section">
+        <div class="category-icons">
+            <div class="icon-item" onclick="filterByColor('theme-yellow')"><div class="circle c-yellow">寰</div><span class="icon-label">綜合其他</span></div>
+            <div class="icon-item" onclick="filterByColor('theme-black')"><div class="circle c-black">諱</div><span class="icon-label">黑色驚悚</span></div>
+            <div class="icon-item" onclick="filterByColor('theme-purple')"><div class="circle c-purple">異</div><span class="icon-label">架空背景</span></div>
+            <div class="icon-item" onclick="filterByColor('theme-blue')"><div class="circle c-blue">職</div><span class="icon-label">現代都市</span></div>
+            <div class="icon-item" onclick="filterByColor('theme-red')"><div class="circle c-red">鑑</div><span class="icon-label">推理軍情</span></div>
+            <div class="icon-item" onclick="filterByColor('theme-green')"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
+        </div>
+
+        <div class="tags-section">
+            <div class="tag-label">TAG:</div>
+            <div class="tag-list" id="tagListContainer"></div>
+        </div>
+
+        <div class="book-grid" id="bookCatalog"></div>
+    </div>
+
+    <div id="author" class="page-section">
+        <div class="authors-overview">
+            <div class="author-card">
+                <div class="ac-header" onclick="routeAuthorDetail('moscato')">
+                    <img src="https://via.placeholder.com/200/444/fff?text=Moscato" id="ov-avatar-moscato">
+                    <div class="ac-name">◆ 莫斯卡托 ◆</div>
+                </div>
+                <div id="ov-list-moscato"></div>
+            </div>
+            <div class="author-card">
+                <div class="ac-header" onclick="routeAuthorDetail('bunsen')">
+                    <img src="https://via.placeholder.com/200/444/fff?text=Bunsen" id="ov-avatar-bunsen">
+                    <div class="ac-name">◆ 本生燈 ◆</div>
+                </div>
+                <div id="ov-list-bunsen"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="author-detail" class="page-section">
+        <div id="ad-content"></div>
+    </div>
+
+    <div id="admin" class="admin-panel">
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchAdminTab('books')">書籍管理</button>
+            <button class="tab-btn" onclick="switchAdminTab('authors')">作者頁設定</button>
+        </div>
+
+        <div id="adm-books">
+            <h3 style="color: var(--theme-blue);">新增 / 編輯書籍</h3>
+            <input type="hidden" id="editId">
+            <div class="form-row">
+                <div class="form-group"><label>書名</label><input type="text" id="inTitle" class="form-control"></div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <select id="inAuthor" class="form-control">
+                        <option value="本生燈">本生燈</option>
+                        <option value="莫斯卡托">莫斯卡托</option>
+                        <option value="莫斯卡托、本生燈">合著</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <select id="inStatus" class="form-control" onchange="togglePubFields()">
+                        <option value="ongoing">連載中</option>
+                        <option value="completed">已完結</option>
+                        <option value="published">已出版</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>字數</label><input type="text" id="inWordCount" class="form-control"></div>
+                <div class="form-group"><label>CP / 備註</label><input type="text" id="inCP" class="form-control"></div>
+            </div>
+
+            <div id="pubFields" style="display:none; border:1px solid #555; padding:10px; margin-bottom:15px; background:#2a2a2a;">
+                <label style="color:var(--theme-green); font-weight:bold; display:block; margin-bottom:10px;">★ 出版資訊</label>
+                <div class="form-row">
+                    <div class="form-group"><label>定價</label><input type="text" id="inPrice" class="form-control"></div>
+                    <div class="form-group">
+                        <label>分類顏色</label>
+                        <select id="inColor" class="form-control">
+                            <option value="theme-blue">藍色 (現代都市)</option>
+                            <option value="theme-green">綠色 (羅馬假期)</option>
+                            <option value="theme-purple">紫色 (架空背景)</option>
+                            <option value="theme-red">紅色 (推理軍情)</option>
+                            <option value="theme-black">黑色 (黑色驚悚)</option>
+                            <option value="theme-yellow">黃色 (綜合其他)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>購買連結</label><input type="text" id="inBuy" class="form-control"></div>
+                    <div class="form-group"><label>資訊頁連結</label><input type="text" id="inInfo" class="form-control"></div>
+                </div>
+                <div class="form-group"><label style="display:inline-flex;align-items:center;"><input type="checkbox" id="inCarousel"> 加入首頁輪播</label></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Tags (逗號分隔)</label><input type="text" id="inTags" class="form-control"></div>
+                <div class="form-group"><label>封面圖片網址</label><input type="text" id="inCover" class="form-control"></div>
+            </div>
+            <div class="form-group"><label>文案</label><textarea id="inDesc" class="form-control" rows="3"></textarea></div>
+            
+            <button class="btn-submit" onclick="saveBook()">儲存書籍</button>
+            <hr style="border-color:#444; margin:30px 0;">
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse; font-size:14px; min-width:600px;">
+                    <thead><tr style="background:#333; color:var(--accent-gold);"><th style="padding:10px;">ID</th><th>書名</th><th>狀態</th><th>定價</th><th style="text-align:right">操作</th></tr></thead>
+                    <tbody id="adminBookList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="adm-authors" style="display:none;">
+            <h3 style="color: var(--accent-gold);">作者頁資訊更新</h3>
+            <div class="form-group">
+                <label>選擇作者</label>
+                <select id="authorSelect" class="form-control" onchange="loadAuthorData()">
+                    <option value="moscato">莫斯卡托</option>
+                    <option value="bunsen">本生燈</option>
+                </select>
+            </div>
+            <div class="form-group"><label>公告/獲獎紀錄 (支援HTML)</label><textarea id="authNews" class="form-control" rows="5"></textarea></div>
+            <div class="form-group"><label>頭像網址</label><input type="text" id="authAvatar" class="form-control"></div>
+            <div class="form-group"><label>簡介</label><textarea id="authBio" class="form-control" rows="3"></textarea></div>
+            <button class="btn-submit" onclick="saveAuthorInfo()">更新作者資訊</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 資料庫初始化 ---
+        // 1. 書籍資料 (已填入提供的所有書目)
+        const defaultBooks = [
+            // --- 本生燈 出版 ---
+            { id: 200, title: "安邦立業先守成 上", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "...", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
+            { id: 199, title: "安邦立業先守成 下", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "...", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
+            { id: 197, title: "錄音間秘事", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "...", carousel: false, buyLink: "#", infoLink: "#", wordCount: "約4萬" },
+            { id: 196, title: "斯堪地聯邦冒險手記 I", author: "本生燈", status: "published", category: "theme-purple", price: 280, tags: "耽美, 輕奇幻, 西幻, 冒險", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "朧月出版", carousel: false, buyLink: "#" },
+            { id: 195, title: "斯堪地聯邦冒險手記 II", author: "本生燈", status: "published", category: "theme-purple", price: 280, tags: "耽美, 輕奇幻, 西幻, 冒險", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "朧月出版", carousel: false, buyLink: "#" },
+            { id: 194, title: "斯堪地聯邦冒險手記 III", author: "本生燈", status: "published", category: "theme-purple", price: 280, tags: "耽美, 輕奇幻, 西幻, 冒險", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "朧月出版", carousel: false, buyLink: "#" },
+            { id: 193, title: "投資一定有風險 上", author: "本生燈", status: "published", category: "theme-blue", price: 280, tags: "耽美, 純情, 單戀, 異男忘", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "朧月出版", carousel: false, buyLink: "#", wordCount: "約15萬" },
+            { id: 192, title: "投資一定有風險 下", author: "本生燈", status: "published", category: "theme-blue", price: 280, tags: "耽美, 純情, 單戀, 異男忘", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "朧月出版", carousel: false, buyLink: "#", wordCount: "約15萬" },
+            { id: 191, title: "騂艣之末", author: "本生燈", status: "published", category: "theme-black", price: 270, tags: "耽美, 星際, 人外, ABO, 兄弟, 年下", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "個人誌", carousel: false, buyLink: "#", wordCount: "1-2萬" },
+            { id: 190, title: "山莊系列-但凡死者都姓蘇", author: "本生燈", status: "published", category: "theme-purple", price: 200, tags: "一般向, 懸疑小品合集", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "個人誌", carousel: false, buyLink: "#" },
+            { id: 189, title: "性，愛與筆記 ‧ 微糖", author: "本生燈", status: "published", category: "theme-blue", price: 300, tags: "耽美, 曖昧, 治癒向", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "個人誌", carousel: false, buyLink: "#", wordCount: "約30萬" },
+            { id: 188, title: "性，愛與筆記 ‧ 半糖", author: "本生燈", status: "published", category: "theme-blue", price: 300, tags: "耽美, 曖昧, 治癒向", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "個人誌", carousel: false, buyLink: "#" },
+            { id: 187, title: "性，愛與筆記 ‧ 全糖", author: "本生燈", status: "published", category: "theme-blue", price: 300, tags: "耽美, 曖昧, 治癒向", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "個人誌", carousel: false, buyLink: "#" },
+            
+            // --- 莫斯卡托 出版 ---
+            { id: 186, title: "SCID系列-異鄉人 上", author: "莫斯卡托", status: "published", category: "theme-red", price: 300, tags: "耽美, 刑偵, 現代都市, 歐美風", cover: "https://via.placeholder.com/140x200?text=SCID1", desc: "...", carousel: false, buyLink: "#" },
+            { id: 185, title: "SCID系列-異鄉人 下", author: "莫斯卡托", status: "published", category: "theme-red", price: 300, tags: "耽美, 刑偵, 現代都市, 歐美風", cover: "https://via.placeholder.com/140x200?text=SCID2", desc: "...", carousel: false, buyLink: "#" },
+            { id: 184, title: "當星星殞落", author: "莫斯卡托", status: "published", category: "theme-blue", price: 280, tags: "耽美, 現代都市, 強強, 掰彎直男", cover: "https://via.placeholder.com/140x200?text=Star", desc: "...", carousel: false, buyLink: "#" },
+            { id: 183, title: "北之國", author: "莫斯卡托", status: "published", category: "theme-purple", price: 320, tags: "耽美, 奇幻架空, 雙性生子, 甜寵", cover: "https://via.placeholder.com/140x200?text=North", desc: "...", carousel: false, buyLink: "#" },
+            { id: 182, title: "絕交進行式", author: "莫斯卡托", status: "published", category: "theme-blue", price: 250, tags: "耽美, 現代都市, 雙向暗戀", cover: "https://via.placeholder.com/140x200?text=Break", desc: "...", carousel: false, buyLink: "#" },
+            { id: 181, title: "談愛傷感情", author: "莫斯卡托", status: "published", category: "theme-blue", price: 280, tags: "耽美, 現代都市, 年下, 炮友轉真愛", cover: "https://via.placeholder.com/140x200?text=Hurt", desc: "※朧月書版出版", carousel: false, buyLink: "#" },
+            { id: 180, title: "北之國-王儲與龍騎士", author: "莫斯卡托", status: "published", category: "theme-purple", price: 400, tags: "耽美, 奇幻冒險, 雙性生子, 先婚後愛", cover: "https://via.placeholder.com/140x200?text=Dragon", desc: "※朧月書版出版 (一套兩冊)", carousel: false, buyLink: "#" },
+
+            // --- 本生燈 連載中 ---
+            { id: 101, title: "金色深淵", author: "本生燈", status: "ongoing", tags: "耽美, 歐美, 懸疑, 強強", cp: "", wordCount: "10-20萬", desc: "連載中..." },
+            { id: 102, title: "匪類", author: "本生燈", status: "ongoing", tags: "耽美, 強強, 特務, 砲友", cp: "", wordCount: "7萬", desc: "連載中..." },
+            { id: 103, title: "錄音間外的旁觀者", author: "本生燈", status: "ongoing", tags: "耽美, 聲音導演X配音員", cp: "", wordCount: "約7萬", desc: "連載中..." },
+            { id: 104, title: "非我族類，其心必異", author: "本生燈", status: "ongoing", tags: "耽美, ABO, 星際, 人外", cp: "外星語翻譯官X特殊自衛隊指揮官", wordCount: "3-5萬", desc: "《外星宜居城市》後續" },
+            { id: 105, title: "羊駝小姐與黃金獵犬先生", author: "本生燈", status: "ongoing", tags: "BG, 都會戀情", cp: "", wordCount: "單篇", desc: "《無糖的甜度》相關作" },
+            { id: 106, title: "沉縛", author: "本生燈", status: "ongoing", tags: "耽美, 輕微BDSM, 強強, 霸道總裁VS控制狂", cp: "", wordCount: "6-8萬", desc: "連載中..." },
+            { id: 107, title: "如何在狼手下求生存", author: "本生燈", status: "ongoing", tags: "耽美, 職場, 上司下屬, 砲友", cp: "", wordCount: "單篇連載", desc: "《投資一定有風險》相關作" },
+            { id: 108, title: "枯木逢春", author: "本生燈", status: "ongoing", tags: "耽美, 年齡差, 壯漢, 忠犬受, 台電", cp: "", wordCount: "6-8萬", desc: "連載中..." },
+
+            // --- 莫斯卡托 連載中 ---
+            { id: 109, title: "當社工怎麼談戀愛", author: "莫斯卡托", status: "ongoing", tags: "耽美, 現代都市, 職場", cp: "", wordCount: "-", desc: "連載中..." },
+            { id: 110, title: "長夜未曉", author: "莫斯卡托", status: "ongoing", tags: "耽美, 血族, 歐美風, 中古世紀奇幻", cp: "", wordCount: "-", desc: "連載中..." },
+            { id: 111, title: "願者上鉤", author: "莫斯卡托", status: "ongoing", tags: "耽美, 現代都市, 亂倫, 多P", cp: "", wordCount: "-", desc: "連載中..." },
+
+            // --- 本生燈 完結 ---
+            { id: 50, title: "斯堪地聯邦冒險手記", author: "本生燈", status: "completed", tags: "耽美, 輕奇幻, 人魚X人類勇士", cp: "", wordCount: "27萬", desc: "完結" },
+            { id: 51, title: "性，愛與筆記", author: "本生燈", status: "completed", tags: "耽美, 甜寵, 治癒, 演藝圈", cp: "", wordCount: "約30萬", desc: "完結" },
+            { id: 52, title: "投資一定有風險", author: "本生燈", status: "completed", tags: "耽美, 純情, 單戀, 異男忘", cp: "", wordCount: "約15萬", desc: "完結" },
+            { id: 53, title: "錄音間秘事", author: "本生燈", status: "completed", tags: "耽美, 配音員, 前輩後備", cp: "", wordCount: "約4萬", desc: "完結" },
+            { id: 54, title: "安邦立業先守成", author: "本生燈", status: "completed", tags: "耽美, 砲友轉真愛, 年齡差, 年上", cp: "", wordCount: "約16萬", desc: "完結" },
+            { id: 55, title: "賢者之名", author: "本生燈", status: "completed", tags: "耽美, 曖昧, 京劇", cp: "", wordCount: "1-2萬", desc: "收錄至《性，愛與筆記》" },
+            { id: 56, title: "愛情的權利", author: "本生燈", status: "completed", tags: "耽美, 曖昧, 角色側寫", cp: "", wordCount: "1萬內", desc: "收錄至《性，愛與筆記》" },
+            { id: 57, title: "騂艣之末", author: "本生燈", status: "completed", tags: "耽美, ABO, 星際, 人外, 兄弟, 年下", cp: "", wordCount: "1-2萬", desc: "收錄至《騂艣之末》" },
+            { id: 58, title: "警犯同牢", author: "本生燈", status: "completed", tags: "耽美, 刑警, 犯人, 懸疑, 同一類人", cp: "", wordCount: "1萬內", desc: "完結" },
+            { id: 59, title: "外星宜居城市", author: "本生燈", status: "completed", tags: "耽美, ABO, 星際, 人外, 兄弟, 年下", cp: "", wordCount: "1-2萬", desc: "收錄至《騂艣之末》" },
+            { id: 60, title: "深水里的叛徒", author: "本生燈", status: "completed", tags: "耽美, ABO, 驚悚", cp: "", wordCount: "1-2萬", desc: "收錄至《騂艣之末》" },
+            { id: 61, title: "我們這裡有跳蚤", author: "本生燈", status: "completed", tags: "耽美, 冷戰, 間諜", cp: "", wordCount: "1萬內", desc: "完結" },
+            { id: 62, title: "接吻之前先抽菸", author: "本生燈", status: "completed", tags: "耽美, 兄弟, 八點檔", cp: "", wordCount: "1-2萬", desc: "收錄至《八點檔合本》" },
+            { id: 63, title: "上善若水", author: "本生燈", status: "completed", tags: "耽美, 現代都市, 小短文", cp: "", wordCount: "1萬內", desc: "完結" },
+            { id: 64, title: "無糖的甜度", author: "本生燈", status: "completed", tags: "耽美, 工程師, 雙向暗戀", cp: "", wordCount: "1-2萬", desc: "收錄至《365行》" },
+            { id: 65, title: "湖畔山莊", author: "本生燈", status: "completed", tags: "一般, 懸疑, 推理, 穿越", cp: "", wordCount: "1-2萬", desc: "收錄至《但凡死者都姓蘇》" },
+            { id: 66, title: "玫瑰山莊", author: "本生燈", status: "completed", tags: "一般, 懸疑, 推理, 穿越", cp: "", wordCount: "1-2萬", desc: "收錄至《但凡死者都姓蘇》" },
+
+            // --- 莫斯卡托 完結 ---
+            { id: 67, title: "我們的戰爭", author: "莫斯卡托", status: "completed", tags: "耽美, 歐風, 二戰背景", cp: "", wordCount: "-", desc: "完結" },
+            { id: 68, title: "胡伊小鎮的托瑪斯家", author: "莫斯卡托", status: "completed", tags: "耽美, ABO, 歐美風, 詼諧諷刺", cp: "", wordCount: "-", desc: "完結" },
+            { id: 69, title: "不再沉默", author: "莫斯卡托", status: "completed", tags: "耽美, 現代都市, 溫馨日常, 掰彎直男", cp: "", wordCount: "-", desc: "完結" },
+            { id: 70, title: "與君共舞", author: "莫斯卡托", status: "completed", tags: "現代都市, 耽美, 掰彎直男", cp: "", wordCount: "-", desc: "完結" }
+        ];
+
+        // 2. 作者資料
+        const defaultAuthors = {
+            moscato: { 
+                name: "莫斯卡托", 
+                avatar: "https://via.placeholder.com/200/444/fff?text=Moscato", 
+                bio: "暱稱酒杯。\n平常在噗浪走跳玩耍，主要寫耽美，喜歡刑偵、喜歡歐美背景、也喜歡強強和弱強！\nFC2收錄的文最完整(●´з`)♡\n\n✦ 噗浪　✦ Instagram　✦ Facebook", 
+                news: "", 
+                links: { 
+                    "更新處": ["CxC", "FC2", "米國度", "在水裡寫字", "鏡文學", "vocus方格子"],
+                    "實體書": ["蝦皮", "好賣家", "金石堂", "葫蘆夏天", "月見草", "奸情區"],
+                    "電子書": ["讀墨", "KOBO", "Pubu", "博客來", "BOOKWALKER"]
+                } 
+            },
+            bunsen: { 
+                name: "本生燈", 
+                avatar: "https://via.placeholder.com/200/444/fff?text=Bunsen", 
+                bio: "住在本生燈的許願精靈，暱稱生生。\n喜歡解謎，主要寫耽美與懸疑小說，偶爾寫一般向！\n文章首更於CxC，歡迎訂閱！\n\n以下黃字皆為連結，可直接點選\n✦噗浪　 ✦心得表單\n✦IG　    ✦粉專", 
+                news: "作者公告：\n✦《安邦立業先守成》於2024年7月出版\n\n作者專訪：\n✦讀墨訪談　 ✦金石堂小專訪\n✦《投資一定有風險》朧月訪談 Podcast\n\n熱銷作品紀錄：\n✦2022 讀墨票選大眾小說：《投資一定有風險》與《斯堪地聯邦冒險手記》被票選為讀者最愛名單\n✦2022 讀墨票選大眾小說：《斯堪地聯邦冒險手記》為評審張曉彤老師選書\n✦《投資一定有風險》上／下 上市首周佔博客來／金石堂熱銷榜前十名\n✦《性，愛與筆記》配音維基專頁\n《性，愛與筆記》電子書上讀墨首頁／熱門暢銷榜長達一個月\n《性，愛與筆記》上金石堂動漫特區熱門暢銷榜前三名",
+                links: { 
+                    "更新處": ["CxC", "AO3 (停更)", "PTT BB-LOVE", "在水裡寫字 (停更)", "米國度 (停更)"], 
+                    "原創通販": ["好賣家", "金石堂", "月見草原創", "卡布書屋", "葫蘆夏天", "讀冊"],
+                    "電子書": ["讀墨", "GooglePlay", "Bookwalker", "Kobo", "Pubu"],
+                    "二創通販": ["月見草二創"]
+                } 
+            }
+        };
+
+        let books = JSON.parse(localStorage.getItem('glory_books')) || defaultBooks;
+        let authors = JSON.parse(localStorage.getItem('glory_authors')) || defaultAuthors;
+        const saveDB = () => { localStorage.setItem('glory_books', JSON.stringify(books)); localStorage.setItem('glory_authors', JSON.stringify(authors)); };
+        const allTags = ["全部作品", "莫斯卡托", "本生燈", "耽美", "一般向", "穿越", "演藝圈", "軍警", "懸疑推理", "現代都市", "歐美風", "強強", "雙性生子", "奇幻架空", "星際", "骨科", "年下", "ABO", "人外"];
+
+        function route(page) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            window.scrollTo(0,0);
+            if(page==='home') renderHome();
+            if(page==='books') renderBooks();
+            if(page==='author') renderAuthorOverview();
+            if(page==='admin') renderAdmin();
+        }
+        function routeAuthorDetail(id) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('author-detail').classList.add('active');
+            renderAuthorDetailPage(id);
+            window.scrollTo(0,0);
+        }
+
+        function renderHome() {
+            const pub = books.filter(b => b.status === 'published' && b.carousel);
+            document.getElementById('homeCarousel').innerHTML = pub.map((b, i) => `<div class="carousel-slide ${i===0?'active':''}" style="background-image:url('${b.cover}')"><div class="carousel-caption">${b.title}</div></div>`).join('');
+            document.getElementById('homeNewsContent').innerHTML = `<div style="white-space:pre-line; color:#ddd; font-size:14px;">${authors.bunsen.news}</div>`;
+            let slides = document.querySelectorAll('.carousel-slide'), idx = 0;
+            if(slides.length>1) setInterval(() => { slides[idx].classList.remove('active'); idx=(idx+1)%slides.length; slides[idx].classList.add('active'); }, 3500);
+        }
+
+        function renderBooks() {
+            const tagCont = document.getElementById('tagListContainer');
+            tagCont.innerHTML = allTags.map(t => `<button class="tag-btn ${t==='全部作品'?'active':''}" onclick="filterBooks('${t}', this)">${t}</button>`).join('');
+            if(tagCont.children[2]) tagCont.children[2].classList.add('break');
+            filterBooks('全部作品');
+        }
+
+        function filterBooks(filter, btn) {
+            if(btn) { document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+            const list = document.getElementById('bookCatalog');
+            let filtered = books.filter(b => b.status === 'published').sort((a,b) => b.id - a.id);
+            if(filter.startsWith('theme-')) filtered = filtered.filter(b => b.category === filter);
+            else if(filter !== '全部作品') filtered = filtered.filter(b => b.tags.includes(filter) || b.author.includes(filter));
+            
+            list.innerHTML = filtered.map(b => {
+                let icon = "書";
+                if(b.category.includes('blue')) icon='職'; if(b.category.includes('green')) icon='誌'; if(b.category.includes('red')) icon='鑑';
+                if(b.category.includes('purple')) icon='異'; if(b.category.includes('black')) icon='諱'; if(b.category.includes('yellow')) icon='寰';
+                return `<article class="book-card ${b.category}"><div class="book-header"><div><span class="book-icon t-color">${icon}</span> <span class="book-title t-color">${b.title}</span></div><span class="book-price">NTD.${b.price}</span></div><div class="divider t-color"></div><div class="book-meta t-color">TAG：${b.tags}</div><div class="book-content"><img src="${b.cover}" class="book-cover"><div class="book-desc">${b.desc}</div></div><div class="author-name">${b.author}</div><div class="action-buttons"><button class="btn btn-buy" onclick="window.open('${b.buyLink}')">購 買</button><button class="btn btn-info" onclick="window.open('${b.infoLink}')">資 訊 頁</button></div></article>`;
+            }).join('');
+        }
+        function filterByColor(c) { filterBooks(c); }
+
+        function renderAuthorOverview() {
+            document.getElementById('ov-avatar-moscato').src = authors.moscato.avatar;
+            document.getElementById('ov-avatar-bunsen').src = authors.bunsen.avatar;
+            renderOverviewList('莫斯卡托', 'ov-list-moscato');
+            renderOverviewList('本生燈', 'ov-list-bunsen');
+        }
+
+        function renderOverviewList(authorName, elId) {
+            const el = document.getElementById(elId);
+            const myBooks = books.filter(b => b.author.includes(authorName)).sort((a,b)=>b.id-a.id);
+            const makeList = (title, list) => list.length ? `<div class="ac-list-section"><div class="ac-list-title">${title}</div><ul class="ac-list">${list.map(b=>`<li>◆《${b.title}》</li>`).join('')}</ul></div>` : '';
+            el.innerHTML = makeList('【連載中作品】', myBooks.filter(b=>b.status==='ongoing')) + makeList('【完結作品】', myBooks.filter(b=>b.status==='completed')) + makeList('【出版作品】', myBooks.filter(b=>b.status==='published')) + '<div class="ac-list-section"><div class="ac-list-title">【更新處】</div><ul class="ac-list">' + (authors[authorName==='本生燈'?'bunsen':'moscato'].links['更新處']||[]).map(l=>`<li>◆${l}</li>`).join('') + '</ul></div>';
+        }
+
+        function renderAuthorDetailPage(id) {
+            const data = authors[id];
+            const container = document.getElementById('ad-content');
+            let linksHtml = '';
+            for(let key in data.links) linksHtml += `<div class="links-group"><div class="lg-title">【${key}】</div><ul class="lg-list">${data.links[key].map(l => `<li><a href="#">◆ ${l}</a></li>`).join('')}</ul></div>`;
+
+            const myBooks = books.filter(b => b.author.includes(data.name)).sort((a,b) => b.id - a.id);
+            const ongoing = myBooks.filter(b => b.status === 'ongoing');
+            const completed = myBooks.filter(b => b.status === 'completed');
+            const published = myBooks.filter(b => b.status === 'published');
+
+            const makeTextList = (arr) => arr.map(b => `<div class="text-work-item"><a class="t-work-title">《${b.title}》</a><div class="t-work-meta">${b.tags.split(',').slice(0,3).join('、')}</div><div class="t-work-meta">字數: ${b.wordCount||'-'} ${b.cp ? '| ' + b.cp : ''}</div><div class="t-work-meta">${b.desc}</div></div>`).join('');
+            const makePubList = (arr) => arr.map(b => `<div class="pub-work-item"><img src="${b.cover}" class="pub-cover"><div class="pub-title">《${b.title}》</div><div class="pub-meta">${b.tags.split(',')[0]}</div><div class="pub-meta">${b.desc}</div></div>`).join('');
+
+            let topSection = `<div class="author-detail-header"><img src="${data.avatar}" class="ad-avatar"><div class="ad-info"><div class="ad-name">${data.name}</div><div class="ad-bio">${data.bio}</div></div></div>`;
+            
+            if(id === 'bunsen') {
+                container.innerHTML = topSection + `
+                    <div class="bunsen-layout-grid">
+                        <div class="left-announce">
+                            <div class="announce-section"><h3>作者公告 & 專訪紀錄</h3><div class="announce-content">${data.news.replace(/\n/g,'<br>')}</div></div>
+                        </div>
+                        <div class="right-links">
+                            <div class="links-wrapper">${linksHtml}</div>
+                            <div class="newsletter-box"><div class="newsletter-title">生生閒聊</div><div class="newsletter-desc">留下Email，決不錯過新書預購優惠活動，還可獲得CxC專欄訂閱免費試閱章節！</div><input type="email" placeholder="Email" class="newsletter-input"><button class="newsletter-btn">免費訂閱電子報</button></div>
+                        </div>
+                    </div>
+                    <div class="universe-section"><h3 style="color:var(--accent-orange);margin-bottom:20px;">✧ 生生宇宙 ✧</h3><div class="universe-links"><span class="u-btn">展鴻遊戲官方網站</span><span class="u-btn">《性，愛與筆記》圖像影音專區</span><span class="u-btn">人物關係圖</span></div></div>
+                    <div class="section-header"><span>連載中作品</span></div><div class="text-work-grid">${makeTextList(ongoing)}</div>
+                    <div class="section-header"><span>完結作品</span></div><div class="text-work-grid">${makeTextList(completed)}</div>
+                    <div class="section-header"><span>出版作品</span></div><div class="pub-work-grid">${makePubList(published)}</div>
+                `;
+            } else {
+                container.innerHTML = topSection + `
+                    <div style="background:#2a2a2a;padding:20px;border-radius:10px;margin-bottom:40px;">${linksHtml}</div>
+                    <div class="section-header"><span>連載中作品</span></div><div class="text-work-grid">${makeTextList(ongoing)}</div>
+                    <div class="section-header"><span>完結作品</span></div><div class="text-work-grid">${makeTextList(completed)}</div>
+                    <div class="section-header"><span>出版作品</span></div><div class="pub-work-grid">${makePubList(published)}</div>
+                `;
+            }
+        }
+
+        function renderAdmin() { renderBookList(); loadAuthorData(); }
+        function switchAdminTab(tab) {
+            document.getElementById('adm-books').style.display = tab==='books'?'block':'none';
+            document.getElementById('adm-authors').style.display = tab==='authors'?'block':'none';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); event.target.classList.add('active');
+        }
+        function togglePubFields() { const st = document.getElementById('inStatus').value; document.getElementById('pubFields').style.display = st==='published'?'block':'none'; }
+        
+        function saveBook() {
+            const id = document.getElementById('editId').value;
+            const newBook = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('inTitle').value, author: document.getElementById('inAuthor').value, status: document.getElementById('inStatus').value,
+                tags: document.getElementById('inTags').value, desc: document.getElementById('inDesc').value, cover: document.getElementById('inCover').value,
+                cp: document.getElementById('inCP').value, wordCount: document.getElementById('inWordCount').value,
+                price: document.getElementById('inPrice').value, category: document.getElementById('inColor').value, buyLink: document.getElementById('inBuy').value, infoLink: document.getElementById('inInfo').value, carousel: document.getElementById('inCarousel').checked
+            };
+            if(id) { const idx = books.findIndex(b => b.id == id); books[idx] = newBook; } else { books.push(newBook); }
+            saveDB(); renderBookList(); alert('儲存成功'); document.getElementById('editId').value = ''; document.getElementById('inTitle').value = '';
+        }
+        function renderBookList() {
+            document.getElementById('adminBookList').innerHTML = books.sort((a,b)=>b.id-a.id).map(b => `<tr style="border-bottom:1px solid #444;"><td style="padding:10px;">${b.id}</td><td style="padding:10px;">${b.title}</td><td style="padding:10px;">${b.status}</td><td style="padding:10px;">${b.price||'-'}</td><td style="padding:10px;text-align:right;"><button onclick="editBook(${b.id})" style="background:var(--theme-yellow);border:none;cursor:pointer;">編輯</button></td></tr>`).join('');
+        }
+        function editBook(id) {
+            const b = books.find(x => x.id === id); document.getElementById('editId').value = b.id; document.getElementById('inTitle').value = b.title; document.getElementById('inStatus').value = b.status;
+            document.getElementById('inCP').value = b.cp||''; document.getElementById('inWordCount').value = b.wordCount||''; document.getElementById('inTags').value = b.tags; document.getElementById('inDesc').value = b.desc; document.getElementById('inCover').value = b.cover||'';
+            if(b.status === 'published') { document.getElementById('inPrice').value = b.price; document.getElementById('inBuy').value = b.buyLink; document.getElementById('inCarousel').checked = b.carousel; }
+            togglePubFields();
+        }
+        function loadAuthorData() { const id = document.getElementById('authorSelect').value; const data = authors[id]; document.getElementById('authNews').value = data.news; document.getElementById('authAvatar').value = data.avatar; document.getElementById('authBio').value = data.bio; }
+        function saveAuthorInfo() { const id = document.getElementById('authorSelect').value; authors[id].news = document.getElementById('authNews').value; authors[id].avatar = document.getElementById('authAvatar').value; authors[id].bio = document.getElementById('authBio').value; saveDB(); alert('作者資料已更新'); }
+
+        renderHome();
+    </script>
 </body>
 </html>
