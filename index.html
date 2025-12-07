@@ -2,20 +2,21 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>凱薩GLORY - 書籍列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凱薩GLORY - 書籍列表</title>
     <style>
         /* --- 全局設定 --- */
         body {
             margin: 0;
             padding: 0;
-            background-color: #262626;
+            background-color: #262626; /* 深灰背景 */
             font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
             color: #ddd;
         }
 
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; padding: 0; margin: 0; }
-        * { box-sizing: border-box; } /* 確保 padding 不會撐破寬度 */
+        * { box-sizing: border-box; }
 
         /* --- 頂部導航欄 --- */
         header {
@@ -24,7 +25,7 @@
             align-items: center;
             padding: 20px 40px;
             border-bottom: 1px solid #333;
-            flex-wrap: wrap; /* 允許手機版換行 */
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -41,10 +42,10 @@
         nav ul li a.active { color: #ff7f50; border-bottom: 2px solid #ff7f50; padding-bottom: 5px; }
         nav ul li a:hover { color: #fff; }
 
-        /* --- 主要內容區 (致中縮小) --- */
+        /* --- 主要內容區 --- */
         .container {
-            max-width: 1000px; /* 修改：限制最大寬度，讓畫面更集中 */
-            margin: 0 auto;    /* 修改：自動居中 */
+            max-width: 1000px; /* 限制寬度致中 */
+            margin: 0 auto;
             padding: 40px 20px;
         }
 
@@ -56,7 +57,7 @@
             gap: 20px;
             margin-bottom: 40px;
             position: relative;
-            flex-wrap: wrap; /* 手機版自動換行 */
+            flex-wrap: wrap;
         }
         
         .icon-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
@@ -92,12 +93,11 @@
         .tag-btn.highlight { color: #ffcc00; border-color: #ffcc00; }
         .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
 
-        /* --- 書籍列表 (Grid + Mobile Responsive) --- */
+        /* --- 書籍列表 (Grid) --- */
         .book-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 電腦版維持兩欄 */
-            gap: 60px 40px; /* 增加垂直間距 */
-            border-bottom: 1px solid #333; /* 底部總線條 */
+            grid-template-columns: 1fr 1fr; /* 預設兩欄 */
+            gap: 60px 40px;
             padding-bottom: 40px;
         }
 
@@ -105,83 +105,62 @@
             background: transparent;
             display: flex;
             flex-direction: column;
+            border-bottom: 1px solid #333; /* 每個區塊底部加線，或可只在 Grid 外加 */
+            padding-bottom: 30px;
         }
+        /* 移除最後一列的底線 (選擇性) */
+        .book-card:nth-last-child(-n+2) { border-bottom: none; }
+
 
         .book-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+        
         .book-icon {
-            color: #00bfff; border: 1px solid #00bfff; border-radius: 50%;
+            border: 1px solid; border-radius: 50%;
             width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 5px; font-size: 14px;
         }
-        .book-title { color: #00bfff; font-size: 20px; font-weight: normal; }
+        
+        .book-title { font-size: 20px; font-weight: normal; }
         .book-price { color: #fff; font-size: 18px; }
-        .divider { border-top: 1px dotted #00bfff; margin: 10px 0; opacity: 0.5; }
-        .book-meta { color: #00bfff; font-size: 12px; margin-bottom: 15px; }
+        
+        .divider { border-top: 1px dotted; margin: 10px 0; opacity: 0.5; }
+        .book-meta { font-size: 12px; margin-bottom: 15px; }
 
         .book-content { display: flex; gap: 20px; margin-bottom: 15px; }
         .book-cover { width: 140px; height: 200px; background-color: #555; flex-shrink: 0; object-fit: cover; }
         .book-desc { font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; }
         .quote { display: block; margin-bottom: 10px; color: #fff; }
 
-        /* --- 新增：作者欄位 --- */
-        .author-name {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 15px;
-            padding-left: 2px;
-        }
+        .author-name { color: #888; font-size: 14px; margin-bottom: 15px; padding-left: 2px; }
 
-        /* --- 新增：底部按鈕區 --- */
-        .action-buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: auto; /* 將按鈕推到底部對齊 */
-        }
-
+        /* --- 按鈕樣式 --- */
+        .action-buttons { display: flex; gap: 20px; margin-top: auto; }
         .btn {
-            flex: 1; /* 兩個按鈕平均分配寬度 */
-            padding: 12px 0;
-            border: none;
-            border-radius: 8px; /* 圓角 */
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            transition: opacity 0.3s;
+            flex: 1; padding: 10px 0; border: none; border-radius: 6px;
+            font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; transition: opacity 0.3s;
         }
         .btn:hover { opacity: 0.9; }
+        .btn-buy { background-color: #fa8072; color: #fff; } /* 鮭魚粉 */
+        .btn-info { background-color: #f4d03f; color: #333; } /* 黃色 */
 
-        /* 按鈕顏色 (依照截圖) */
-        .btn-buy {
-            background-color: #fa8072; /* 鮭魚粉紅 (Salmon) */
-            color: #fff;
-        }
-        
-        .btn-info {
-            background-color: #f4d03f; /* 鵝黃色 */
-            color: #333;
-        }
+        /* --- 特定顏色樣式 --- */
+        /* 藍色系 (職) */
+        .theme-blue .book-icon { color: #00bfff; border-color: #00bfff; }
+        .theme-blue .book-title, .theme-blue .book-meta { color: #00bfff; }
+        .theme-blue .divider { border-color: #00bfff; }
 
-        /* --- 手機版響應式設定 (Mobile Responsive) --- */
+        /* 綠色系 (誌) */
+        .theme-green .book-icon { color: #9acd32; border-color: #9acd32; }
+        .theme-green .book-title, .theme-green .book-meta { color: #9acd32; }
+        .theme-green .divider { border-color: #9acd32; }
+
+        /* --- 手機版響應式 --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 15px; }
-            nav ul { gap: 20px; font-size: 14px; }
-            
+            nav ul { gap: 20px; font-size: 14px; flex-wrap: wrap; justify-content: center; }
             .view-toggle { position: relative; justify-content: center; margin-bottom: 20px; top: 0; }
             
-            /* 強制變為單欄 */
-            .book-grid {
-                grid-template-columns: 1fr; 
-                gap: 50px;
-            }
-
-            .book-content {
-                /* 手機上圖片跟文字是否要上下排？依照截圖目前維持左右，但若字太多可考慮 flex-direction: column */
-            }
-            
-            .book-cover {
-                width: 120px; /* 手機上封面稍微縮小 */
-                height: 170px;
-            }
+            .book-grid { grid-template-columns: 1fr; gap: 50px; }
+            .book-cover { width: 120px; height: 170px; }
         }
     </style>
 </head>
@@ -208,72 +187,117 @@
                 <div class="toggle-btn"><span class="toggle-icon"></span> 圖片版</div>
             </div>
 
-            <div class="icon-item">
-                <div class="circle c-yellow">震</div>
-                <span class="icon-label">綜合其他</span>
-            </div>
+            <div class="icon-item"><div class="circle c-yellow">震</div><span class="icon-label">綜合其他</span></div>
+            <div class="icon-item"><div class="circle c-white">諱</div><span class="icon-label">黑色驚悚</span></div>
+            <div class="icon-item"><div class="circle c-purple">異</div><span class="icon-label">架空背景</span></div>
             <div class="icon-item"><div class="circle c-blue">職</div><span class="icon-label">現代都市</span></div>
-             <div class="icon-item"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
+            <div class="icon-item"><div class="circle c-red">鑑</div><span class="icon-label">推理軍情</span></div>
+            <div class="icon-item"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
         </section>
 
         <section class="tags-section">
             <div class="tag-label">TAG:</div>
             <div class="tag-list">
                 <button class="tag-btn highlight">全部作品</button>
+                <button class="tag-btn">莫斯卡托</button>
                 <button class="tag-btn">本生燈</button>
                 <button class="tag-btn">耽美</button>
                 <button class="tag-btn">現代都市</button>
+                <button class="tag-btn">演藝圈</button>
+                <button class="tag-btn">雙性生子</button>
+                <button class="tag-btn">奇幻架空</button>
+                <button class="tag-btn">ABO</button>
             </div>
         </section>
 
         <section class="book-grid">
             
-            <article class="book-card">
+            <article class="book-card theme-blue">
                 <div class="book-header">
-                    <div><span class="book-icon c-green" style="border-color:#9acd32; color:#9acd32">誌</span> <span class="book-title" style="color:#9acd32">003期 Wedding</span></div>
-                    <span class="book-price">NTD.240元</span>
+                    <div><span class="book-icon">職</span> <span class="book-title">安邦立業先守成 上</span></div>
+                    <span class="book-price">NTD.350元</span>
                 </div>
-                <div class="divider" style="border-color:#9acd32"></div>
-                <div class="book-meta" style="color:#9acd32">TAG：耽美、現代都市、甜寵</div>
-                
+                <div class="divider"></div>
+                <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
                 <div class="book-content">
-                    <img src="https://via.placeholder.com/140x200" alt="封面" class="book-cover">
+                    <img src="https://via.placeholder.com/140x200?text=Cover1" alt="封面" class="book-cover">
                     <div class="book-desc">
-                        <span class="quote">收錄《性，愛與筆記》及《當星星殞落》相關番外</span>
-                        《性，愛與筆記》番外收錄<br>
-                        - 千年結緣 《紅妝待嫁》《共枕眠》《我心安處》<br>
-                        - 浪漫脈動 《永恆凝結》
-                        <br><br>
-                        《當星星殞落》番外收錄...
+                        <span class="quote">「只要你敢要，那就有。」</span>
+                        陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現跑友竟是某大公司董事長吳立業...
                     </div>
                 </div>
-
-                <div class="author-name">莫斯卡托、本生燈</div>
-
+                <div class="author-name">本生燈</div>
                 <div class="action-buttons">
                     <button class="btn btn-buy">購 買</button>
                     <button class="btn btn-info">資 訊 頁</button>
                 </div>
             </article>
 
-            <article class="book-card">
+            <article class="book-card theme-blue">
+                <div class="book-header">
+                    <div><span class="book-icon">職</span> <span class="book-title">安邦立業先守成 下</span></div>
+                    <span class="book-price">NTD.350元</span>
+                </div>
+                <div class="divider"></div>
+                <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
+                <div class="book-content">
+                    <img src="https://via.placeholder.com/140x200?text=Cover2" alt="封面" class="book-cover">
+                    <div class="book-desc">
+                        <span class="quote">「喜歡嗎？我認為這兩個字還不夠...」</span>
+                        隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。 選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。
+                        另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。但人生哪能不起波折，只求有緣人同舟共渡。
+                        如果提出要求就能被實現，那陳守安只有一個要求。
+                        「我喜歡聽你說喜歡我。」
+                       
+                        而吳立業所能給的，比一個更多。
+                    </div>
+                </div>
+                <div class="author-name">本生燈</div>
+                <div class="action-buttons">
+                    <button class="btn btn-buy">購 買</button>
+                    <button class="btn btn-info">資 訊 頁</button>
+                </div>
+            </article>
+
+            <article class="book-card theme-green">
+                <div class="book-header">
+                    <div><span class="book-icon">誌</span> <span class="book-title">003期 Wedding</span></div>
+                    <span class="book-price">NTD.240元</span>
+                </div>
+                <div class="divider"></div>
+                <div class="book-meta">TAG：耽美、現代都市、甜寵</div>
+                <div class="book-content">
+                    <img src="https://via.placeholder.com/140x200?text=Cover3" alt="封面" class="book-cover">
+                    <div class="book-desc">
+                        <span class="quote">收錄《性，愛與筆記》及《當星星殞落》相關番外</span>
+                        《性，愛與筆記》番外收錄<br>
+                        - 千年結緣 《紅妝待嫁》《共枕眠》《我心安處》<br>
+                        - 浪漫脈動 《永恆凝結》
+                    </div>
+                </div>
+                <div class="author-name">莫斯卡托、本生燈</div>
+                <div class="action-buttons">
+                    <button class="btn btn-buy">購 買</button>
+                    <button class="btn btn-info">資 訊 頁</button>
+                </div>
+            </article>
+
+            <article class="book-card theme-blue">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">錄音間秘事</span></div>
                     <span class="book-price">NTD.250元</span>
                 </div>
                 <div class="divider"></div>
                 <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
-                
                 <div class="book-content">
-                    <img src="https://via.placeholder.com/140x200" alt="封面" class="book-cover">
+                    <img src="https://via.placeholder.com/140x200?text=Cover4" alt="封面" class="book-cover">
                     <div class="book-desc">
                         <span class="quote">「我們在一起之後，我每天都在感謝老天爺，讓你遇見我，在我最好的時候。」</span>
-                        程曉瑞第一次接演耽美廣播劇，與前輩姚謹懷搭戲。他被姚謹懷的呻吟勾起反應，而在錄音間外，他卻被姚謹懷壓在門板上俯首親吻...
+                        程曉瑞第一次接演耽美廣播劇，與前輩姚謹懷搭戲。他被姚謹懷的呻吟勾起反應，而在錄音間外，他卻被姚謹懷壓在門板上俯首。</span>
+                        親吻曖昧流轉成慾望，程曉璐以為兩人只是順勢交往， 但姚謹懷似乎比他以為的更喜歡他——</span>
                     </div>
                 </div>
-
                 <div class="author-name">本生燈</div>
-
                 <div class="action-buttons">
                     <button class="btn btn-buy">購 買</button>
                     <button class="btn btn-info">資 訊 頁</button>
