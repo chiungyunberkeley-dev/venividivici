@@ -220,7 +220,7 @@
         <div id="ad-content"></div>
     </div>
 
-    <div id="admin" class="admin-panel">
+  <div id="admin" class="admin-panel">
         <div class="tab-menu">
             <button class="tab-btn active" onclick="switchAdminTab('books')">書籍管理</button>
             <button class="tab-btn" onclick="switchAdminTab('authors')">作者頁設定</button>
@@ -254,10 +254,13 @@
                 <div class="form-group"><label>CP (例如: 強強、特務)</label><input type="text" id="inCP" class="form-control"></div>
             </div>
 
-            <div id="pubFields" style="display:none; border:1px solid #555; padding:10px; margin-bottom:15px;">
-                <label style="color:var(--theme-green)">出版資訊</label>
+            <div id="pubFields" style="display:none; border:1px solid #555; padding:10px; margin-bottom:15px; background: #2a2a2a;">
+                <label style="color:var(--theme-green); font-weight:bold; display:block; margin-bottom:10px; border-bottom:1px dashed #555; padding-bottom:5px;">★ 出版作品專用資訊</label>
                 <div class="form-row">
-                    <div class="form-group"><label>定價</label><input type="text" id="inPrice" class="form-control"></div>
+                    <div class="form-group">
+                        <label style="color: var(--accent-gold);">定價 (NTD)</label>
+                        <input type="number" id="inPrice" class="form-control" placeholder="例如: 350">
+                    </div>
                     <div class="form-group">
                         <label>分類顏色</label>
                         <select id="inColor" class="form-control">
@@ -275,7 +278,9 @@
                     <div class="form-group"><label>資訊頁連結</label><input type="text" id="inInfo" class="form-control"></div>
                 </div>
                 <div class="form-group">
-                    <label style="display:inline-flex;align-items:center;"><input type="checkbox" id="inCarousel"> 加入首頁輪播</label>
+                    <label style="display:inline-flex;align-items:center; cursor:pointer;">
+                        <input type="checkbox" id="inCarousel" style="margin-right:8px;"> 加入首頁輪播
+                    </label>
                 </div>
             </div>
 
@@ -287,8 +292,23 @@
             
             <button class="btn-submit" onclick="saveBook()">儲存書籍</button>
             
-            <hr style="border-color:#444; margin:20px 0;">
-            <div id="adminBookList"></div>
+            <hr style="border-color:#444; margin:30px 0;">
+            
+            <h3 style="color: #aaa;">現有書籍列表</h3>
+            <div style="overflow-x:auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px;">
+                    <thead>
+                        <tr style="background: #333; color: var(--accent-gold);">
+                            <th style="padding: 10px; text-align: left;">ID</th>
+                            <th style="padding: 10px; text-align: left;">書名</th>
+                            <th style="padding: 10px; text-align: left;">狀態</th>
+                            <th style="padding: 10px; text-align: left;">定價</th> <th style="padding: 10px; text-align: right;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookList">
+                        </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="adm-authors" style="display:none;">
@@ -377,7 +397,6 @@
                 </div>
             `).join('');
             
-            // 跑馬燈：顯示兩位作者的最新消息
             const newsHtml = `
                 <p style="color:var(--accent-orange)">【莫斯卡托】</p><p>${authors.moscato.news.replace(/\n/g, '<br>')}</p>
                 <br>
@@ -385,7 +404,6 @@
             `;
             document.getElementById('homeNewsContent').innerHTML = newsHtml;
             
-            // 輪播動畫
             let slides = document.querySelectorAll('.carousel-slide');
             let idx = 0;
             if(slides.length > 1) {
@@ -401,7 +419,7 @@
         function renderBooks() {
             const tagCont = document.getElementById('tagListContainer');
             tagCont.innerHTML = allTags.map(t => `<button class="tag-btn ${t==='全部作品'?'active':''}" onclick="filterBooks('${t}', this)">${t}</button>`).join('');
-            if(tagCont.children[2]) tagCont.children[2].classList.add('break'); // 換行模擬
+            if(tagCont.children[2]) tagCont.children[2].classList.add('break');
 
             filterBooks('全部作品');
         }
@@ -412,8 +430,6 @@
                 btn.classList.add('active');
             }
             const list = document.getElementById('bookCatalog');
-            
-            // 只顯示已出版
             let filtered = books.filter(b => b.status === 'published').sort((a,b) => b.id - a.id);
             
             if(filter.startsWith('theme-')) {
@@ -451,7 +467,6 @@
                 </article>`;
             }).join('');
         }
-        
         function filterByColor(c) { filterBooks(c); }
 
         // --- 渲染作者詳情頁 ---
@@ -459,7 +474,6 @@
             const data = authors[id];
             const container = document.getElementById('ad-content');
             
-            // 連結欄位生成
             let linksHtml = '';
             for(let key in data.links) {
                 linksHtml += `
@@ -469,13 +483,11 @@
                 </div>`;
             }
 
-            // 抓取該作者書籍
             const myBooks = books.filter(b => b.author.includes(data.name)).sort((a,b) => b.id - a.id);
             const ongoing = myBooks.filter(b => b.status === 'ongoing');
             const completed = myBooks.filter(b => b.status === 'completed');
             const published = myBooks.filter(b => b.status === 'published');
 
-            // 列表生成 helper
             const makeTextList = (arr) => arr.map(b => `
                 <div class="text-work-item">
                     <a class="t-work-title">《${b.title}》</a>
@@ -492,7 +504,6 @@
                 </div>
             `).join('');
 
-            // 本生燈專屬區塊
             let bunsenExtra = '';
             if(id === 'bunsen') {
                 bunsenExtra = `
@@ -567,7 +578,7 @@
                 cp: document.getElementById('inCP').value,
                 wordCount: document.getElementById('inWordCount').value,
                 // pub fields
-                price: document.getElementById('inPrice').value,
+                price: document.getElementById('inPrice').value, // 儲存定價
                 category: document.getElementById('inColor').value,
                 buyLink: document.getElementById('inBuy').value,
                 infoLink: document.getElementById('inInfo').value,
@@ -590,10 +601,13 @@
         function renderBookList() {
             const list = document.getElementById('adminBookList');
             list.innerHTML = books.sort((a,b)=>b.id-a.id).map(b => 
-                `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #444; padding:10px;">
-                    <span>${b.title} (${b.status})</span>
-                    <button onclick="editBook(${b.id})" style="background:var(--theme-yellow);border:none;cursor:pointer;">編輯</button>
-                </div>`
+                `<tr style="border-bottom:1px solid #444;">
+                    <td style="padding:10px;">${b.id}</td>
+                    <td style="padding:10px;">${b.title}</td>
+                    <td style="padding:10px;">${b.status==='published'?'<span style="color:#9acd32">出版</span>':b.status}</td>
+                    <td style="padding:10px;">${b.price ? b.price : '-'}</td>
+                    <td style="padding:10px;text-align:right;"><button onclick="editBook(${b.id})" style="background:var(--theme-yellow);border:none;cursor:pointer;">編輯</button></td>
+                </tr>`
             ).join('');
         }
 
