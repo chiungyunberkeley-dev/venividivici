@@ -63,15 +63,23 @@
         .tag-label { color: #ff7f50; font-size: 16px; margin-right: 15px; margin-top: 6px; font-family: serif; flex-shrink: 0;}
         .tag-list { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; }
         
+        /* 預設 Tag 樣式：粉色、空心 */
         .tag-btn {
-            background: transparent; border: 1px solid #ff7f50; color: #ff7f50;
+            background: transparent; 
+            border: 1px solid #ff7f50; 
+            color: #ff7f50;
             padding: 4px 15px; border-radius: 20px; font-size: 13px; cursor: pointer;
             transition: all 0.3s;
         }
+        
         .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
-        .tag-btn.active-filter { background-color: #ff7f50; color: #fff; }
-        .tag-btn.highlight { color: #ffcc00; border-color: #ffcc00; }
-        .tag-btn.highlight.active-filter { background-color: #ffcc00; color: #000; }
+        
+        /* Tag 被選中時的樣式：黃色字、黃色框、空心背景 */
+        .tag-btn.active-filter {
+            background-color: transparent; /* 空心 */
+            color: #ffcc00;                /* 黃色字 */
+            border-color: #ffcc00;         /* 黃色框 */
+        }
         
         .break { flex-basis: 100%; height: 5px; }
 
@@ -176,7 +184,7 @@
         <section class="tags-section">
             <div class="tag-label">TAG:</div>
             <div class="tag-list" id="tagContainer">
-                <button class="tag-btn highlight active-filter" data-filter="all">全部作品</button>
+                <button class="tag-btn active-filter" data-filter="all">全部作品</button>
                 <button class="tag-btn" data-filter="莫斯卡托">莫斯卡托</button>
                 <button class="tag-btn" data-filter="本生燈">本生燈</button>
                 <div class="break"></div>
