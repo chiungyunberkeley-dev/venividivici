@@ -45,9 +45,9 @@
         }
         .icon-label { font-size: 13px; color: #aaa; letter-spacing: 1px; margin-top: 5px; }
 
-        /* Icon Colors (Updated Order per Screenshot) */
+        /* Icon Colors */
         .c-yellow { border-color: #ffcc00; color: #ffcc00; } /* 震 */
-        .c-black  { border-color: #888; color: #888; }       /* 諱 (深灰/銀) */
+        .c-black  { border-color: #888; color: #888; }       /* 諱 */
         .c-purple { border-color: #a020f0; color: #a020f0; } /* 異 */
         .c-blue   { border-color: #00bfff; color: #00bfff; } /* 職 */
         .c-red    { border-color: #ff4500; color: #ff4500; } /* 鑑 */
@@ -66,11 +66,13 @@
         .tag-btn {
             background: transparent; border: 1px solid #ff7f50; color: #ff7f50;
             padding: 4px 15px; border-radius: 20px; font-size: 13px; cursor: pointer;
+            transition: all 0.3s;
         }
         .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
+        .tag-btn.active-filter { background-color: #ff7f50; color: #fff; }
         .tag-btn.highlight { color: #ffcc00; border-color: #ffcc00; }
+        .tag-btn.highlight.active-filter { background-color: #ffcc00; color: #000; }
         
-        /* 強制換行輔助 */
         .break { flex-basis: 100%; height: 5px; }
 
         /* --- Book Grid --- */
@@ -78,10 +80,10 @@
             display: grid; grid-template-columns: 1fr 1fr; gap: 60px 40px; padding-bottom: 40px;
         }
         .book-card {
-            background: transparent; display: flex; flex-direction: column;
+            background: transparent;
+            display: flex; flex-direction: column;
             border-bottom: 1px solid #333; padding-bottom: 30px;
         }
-        .book-card:nth-last-child(-n+2) { border-bottom: none; }
 
         /* Inner Content */
         .book-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
@@ -100,7 +102,6 @@
         .book-cover { width: 140px; height: 200px; background-color: #444; flex-shrink: 0; object-fit: cover; }
         .book-desc { font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; flex: 1; }
         .quote { display: block; margin-bottom: 10px; color: #fff; font-weight: bold;}
-        
         .author-name { color: #888; font-size: 14px; margin-bottom: 15px; padding-left: 2px; }
 
         /* Buttons */
@@ -113,37 +114,24 @@
         .btn-buy { background-color: #fa8072; color: #fff; }
         .btn-info { background-color: #f4d03f; color: #333; }
 
-        /* --- Theme Colors --- */
-        /* Yellow - 震 */
+        /* --- Theme Colors (Auto apply based on class) --- */
         .theme-yellow .book-icon, .theme-yellow .book-title, .theme-yellow .book-meta { color: #ffcc00; }
-        .theme-yellow .book-icon { border-color: #ffcc00; }
-        .theme-yellow .divider { border-color: #ffcc00; }
+        .theme-yellow .book-icon, .theme-yellow .divider { border-color: #ffcc00; }
 
-        /* Black - 諱 (Silver) */
         .theme-black .book-icon, .theme-black .book-title, .theme-black .book-meta { color: #bbb; }
-        .theme-black .book-icon { border-color: #bbb; }
-        .theme-black .divider { border-color: #bbb; }
+        .theme-black .book-icon, .theme-black .divider { border-color: #bbb; }
 
-        /* Purple - 異 */
         .theme-purple .book-icon, .theme-purple .book-title, .theme-purple .book-meta { color: #a020f0; }
-        .theme-purple .book-icon { border-color: #a020f0; }
-        .theme-purple .divider { border-color: #a020f0; }
+        .theme-purple .book-icon, .theme-purple .divider { border-color: #a020f0; }
 
-        /* Blue - 職 */
         .theme-blue .book-icon, .theme-blue .book-title, .theme-blue .book-meta { color: #00bfff; }
-        .theme-blue .book-icon { border-color: #00bfff; }
-        .theme-blue .divider { border-color: #00bfff; }
+        .theme-blue .book-icon, .theme-blue .divider { border-color: #00bfff; }
 
-        /* Red - 鑑 */
         .theme-red .book-icon, .theme-red .book-title, .theme-red .book-meta { color: #ff4500; }
-        .theme-red .book-icon { border-color: #ff4500; }
-        .theme-red .divider { border-color: #ff4500; }
+        .theme-red .book-icon, .theme-red .divider { border-color: #ff4500; }
 
-        /* Green - 誌 */
         .theme-green .book-icon, .theme-green .book-title, .theme-green .book-meta { color: #9acd32; }
-        .theme-green .book-icon { border-color: #9acd32; }
-        .theme-green .divider { border-color: #9acd32; }
-
+        .theme-green .book-icon, .theme-green .divider { border-color: #9acd32; }
 
         /* --- Mobile Responsive --- */
         @media (max-width: 768px) {
@@ -177,45 +165,49 @@
                 <div class="toggle-btn"><span class="toggle-icon"></span> 文字版</div>
                 <div class="toggle-btn"><span class="toggle-icon"></span> 圖片版</div>
             </div>
-            <div class="icon-item"><div class="circle c-yellow">震</div><span class="icon-label">綜合其他</span></div>
-            <div class="icon-item"><div class="circle c-black">諱</div><span class="icon-label">黑色驚悚</span></div>
-            <div class="icon-item"><div class="circle c-purple">異</div><span class="icon-label">架空背景</span></div>
-            <div class="icon-item"><div class="circle c-blue">職</div><span class="icon-label">現代都市</span></div>
-            <div class="icon-item"><div class="circle c-red">鑑</div><span class="icon-label">推理軍情</span></div>
-            <div class="icon-item"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-yellow')"><div class="circle c-yellow">震</div><span class="icon-label">綜合其他</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-black')"><div class="circle c-black">諱</div><span class="icon-label">黑色驚悚</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-purple')"><div class="circle c-purple">異</div><span class="icon-label">架空背景</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-blue')"><div class="circle c-blue">職</div><span class="icon-label">現代都市</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-red')"><div class="circle c-red">鑑</div><span class="icon-label">推理軍情</span></div>
+            <div class="icon-item" onclick="filterByIcon('theme-green')"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
         </section>
 
         <section class="tags-section">
             <div class="tag-label">TAG:</div>
-            <div class="tag-list">
-                <button class="tag-btn highlight">全部作品</button>
-                <button class="tag-btn">莫斯卡托</button>
-                <button class="tag-btn">本生燈</button>
-                <div class="break"></div> <button class="tag-btn">耽美</button>
-                <button class="tag-btn">一般向</button>
-                <button class="tag-btn">穿越</button>
-                <button class="tag-btn">演藝圈</button>
-                <button class="tag-btn">軍警</button>
-                <button class="tag-btn">懸疑推理</button>
-                <button class="tag-btn">現代都市</button>
-                <button class="tag-btn">歐美風</button>
-                <button class="tag-btn">強強</button>
-                <button class="tag-btn">雙性生子</button>
-                <button class="tag-btn">奇幻架空</button>
-                <div class="break"></div> <button class="tag-btn">星際</button>
-                <button class="tag-btn">骨科</button>
-                <button class="tag-btn">年下</button>
-                <button class="tag-btn">ABO</button>
-                <button class="tag-btn">人外</button>
+            <div class="tag-list" id="tagContainer">
+                <button class="tag-btn highlight active-filter" data-filter="all">全部作品</button>
+                <button class="tag-btn" data-filter="莫斯卡托">莫斯卡托</button>
+                <button class="tag-btn" data-filter="本生燈">本生燈</button>
+                <div class="break"></div>
+                
+                <button class="tag-btn" data-filter="耽美">耽美</button>
+                <button class="tag-btn" data-filter="一般向">一般向</button>
+                <button class="tag-btn" data-filter="穿越">穿越</button>
+                <button class="tag-btn" data-filter="演藝圈">演藝圈</button>
+                <button class="tag-btn" data-filter="軍警">軍警</button>
+                <button class="tag-btn" data-filter="懸疑推理">懸疑推理</button>
+                <button class="tag-btn" data-filter="現代都市">現代都市</button>
+                <button class="tag-btn" data-filter="歐美風">歐美風</button>
+                <button class="tag-btn" data-filter="強強">強強</button>
+                <button class="tag-btn" data-filter="雙性生子">雙性生子</button>
+                <button class="tag-btn" data-filter="奇幻架空">奇幻架空</button>
+                <div class="break"></div>
+
+                <button class="tag-btn" data-filter="星際">星際</button>
+                <button class="tag-btn" data-filter="骨科">骨科</button>
+                <button class="tag-btn" data-filter="年下">年下</button>
+                <button class="tag-btn" data-filter="ABO">ABO</button>
+                <button class="tag-btn" data-filter="人外">人外</button>
             </div>
         </section>
 
-        <section class="book-grid">
+        <section class="book-grid" id="bookGrid">
             
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="1" data-tags="本生燈, 現代都市, 耽美, 雙向暗戀, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">安邦立業先守成 上</span></div>
-                    <span class="book-price">NTD.250元</span>
+                    <span class="book-price">NTD.350元</span>
                 </div>
                 <div class="divider"></div>
                 <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
@@ -231,10 +223,10 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="2" data-tags="本生燈, 現代都市, 耽美, 雙向暗戀, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">安邦立業先守成 下</span></div>
-                    <span class="book-price">NTD.250元</span>
+                    <span class="book-price">NTD.350元</span>
                 </div>
                 <div class="divider"></div>
                 <div class="book-meta">TAG：現代都市、耽美、雙向暗戀、甜寵</div>
@@ -250,7 +242,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-green">
+            <article class="book-card theme-green" data-id="3" data-tags="莫斯卡托, 本生燈, 耽美, 現代都市, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">誌</span> <span class="book-title">003期 Wedding</span></div>
                     <span class="book-price">NTD.240元</span>
@@ -273,7 +265,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="4" data-tags="本生燈, 現代都市, 耽美, 雙向暗戀, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">錄音間秘事</span></div>
                     <span class="book-price">NTD.250元</span>
@@ -291,7 +283,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-green">
+            <article class="book-card theme-green" data-id="5" data-tags="莫斯卡托, 本生燈, 現代都市, 耽美, 番外">
                 <div class="book-header">
                     <div><span class="book-icon">誌</span> <span class="book-title">002期 LIFE</span></div>
                     <span class="book-price">NTD.240元</span>
@@ -315,7 +307,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="6" data-tags="莫斯卡托, 現代都市, 耽美, 雙向暗戀, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">絕交進行式</span></div>
                     <span class="book-price">NTD.200元</span>
@@ -336,7 +328,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-black">
+            <article class="book-card theme-black" data-id="7" data-tags="本生燈, 星際, ABO, 骨科, 人外, 兄弟, 年下, 懸疑, 異世界">
                 <div class="book-header">
                     <div><span class="book-icon">諱</span> <span class="book-title">騂驢之末</span></div>
                     <span class="book-price">NTD.270元</span>
@@ -357,7 +349,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-purple">
+            <article class="book-card theme-purple" data-id="8" data-tags="莫斯卡托, 耽美, 奇幻架空, 雙性生子, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">異</span> <span class="book-title">北之國-冒險版</span></div>
                     <span class="book-price">NTD.280元</span>
@@ -378,7 +370,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-purple">
+            <article class="book-card theme-purple" data-id="9" data-tags="莫斯卡托, 耽美, 奇幻架空, 雙性生子, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">異</span> <span class="book-title">北之國-童話版</span></div>
                     <span class="book-price">NTD.280元</span>
@@ -399,7 +391,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="10" data-tags="莫斯卡托, 耽美, 現代都市, 暗戀, 強強">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">當星星殞落</span></div>
                     <span class="book-price">NTD.370元</span>
@@ -419,7 +411,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-green">
+            <article class="book-card theme-green" data-id="11" data-tags="莫斯卡托, 本生燈, 耽美, 現代都市, 演藝圈, 甜寵">
                 <div class="book-header">
                     <div><span class="book-icon">誌</span> <span class="book-title">創刊號 GLORY</span></div>
                     <span class="book-price">原價NTD.240元</span>
@@ -442,7 +434,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="12" data-tags="本生燈, 耽美, 演藝圈, 現代都市">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">性，愛與筆記 · 微糖</span></div>
                     <span class="book-price">一套NTD.1100元</span>
@@ -462,7 +454,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="13" data-tags="本生燈, 耽美, 演藝圈, 現代都市">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">性，愛與筆記 · 半糖</span></div>
                     <span class="book-price">一套三冊不分售</span>
@@ -483,7 +475,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-blue">
+            <article class="book-card theme-blue" data-id="14" data-tags="本生燈, 耽美, 演藝圈, 現代都市">
                 <div class="book-header">
                     <div><span class="book-icon">職</span> <span class="book-title">性，愛與筆記 · 全糖</span></div>
                     <span class="book-price">一套三冊不分售</span>
@@ -504,7 +496,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-red">
+            <article class="book-card theme-red" data-id="15" data-tags="莫斯卡托, 耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強">
                 <div class="book-header">
                     <div><span class="book-icon">鑑</span> <span class="book-title">SCID-異鄉人 上冊</span></div>
                     <span class="book-price">NTD.320元</span>
@@ -525,7 +517,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-red">
+            <article class="book-card theme-red" data-id="16" data-tags="莫斯卡托, 耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強">
                 <div class="book-header">
                     <div><span class="book-icon">鑑</span> <span class="book-title">SCID-異鄉人 下冊</span></div>
                     <span class="book-price">NTD.380元</span>
@@ -546,7 +538,7 @@
                 <div class="action-buttons"><button class="btn btn-buy">購 買</button><button class="btn btn-info">資 訊 頁</button></div>
             </article>
 
-            <article class="book-card theme-purple">
+            <article class="book-card theme-purple" data-id="17" data-tags="本生燈, 一般向, 穿越, 懸疑推理, 現代都市, 強強">
                 <div class="book-header">
                     <div><span class="book-icon">異</span> <span class="book-title">但凡死者都姓蘇</span></div>
                     <span class="book-price">NTD.200元</span>
@@ -574,6 +566,63 @@
             © 2022 by BunsenBurner Design with Wix.com
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('bookGrid');
+            const tagBtns = document.querySelectorAll('.tag-btn');
+            
+            // 1. 自動排序 (依照 data-id 從大到小 = 從新到舊)
+            // 修改處：將 a - b 改為 b - a，實現 Newest First
+            sortBooks();
+
+            // 2. 標籤篩選功能
+            tagBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    tagBtns.forEach(b => b.classList.remove('active-filter'));
+                    this.classList.add('active-filter');
+
+                    const filterValue = this.getAttribute('data-filter');
+                    filterBooks(filterValue);
+                });
+            });
+
+            function sortBooks() {
+                const books = Array.from(grid.children);
+                // 排序邏輯：ID 越大的排在越前面 (18 > 17 ... > 1)
+                books.sort((a, b) => {
+                    return parseInt(b.getAttribute('data-id')) - parseInt(a.getAttribute('data-id'));
+                });
+                books.forEach(book => grid.appendChild(book));
+            }
+
+            function filterBooks(tag) {
+                const books = document.querySelectorAll('.book-card');
+                books.forEach(book => {
+                    const bookTags = book.getAttribute('data-tags');
+                    // 只要 data-tags 字串裡包含該關鍵字，就顯示
+                    if (tag === 'all' || bookTags.includes(tag)) {
+                        book.style.display = 'flex';
+                    } else {
+                        book.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // 3. 圖標篩選功能
+        function filterByIcon(themeClass) {
+            document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active-filter'));
+            const books = document.querySelectorAll('.book-card');
+            books.forEach(book => {
+                if (book.classList.contains(themeClass)) {
+                    book.style.display = 'flex';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
