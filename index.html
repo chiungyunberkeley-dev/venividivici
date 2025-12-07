@@ -43,11 +43,11 @@
             font-size: 24px; font-weight: bold; font-family: serif;
             margin-bottom: 8px; background: transparent;
         }
-        .icon-label { font-size: 13px; color: #aaa; letter-spacing: 1px; }
+        .icon-label { font-size: 13px; color: #aaa; letter-spacing: 1px; margin-top: 5px; }
 
-        /* Icon Colors (Updated Order & Mapping) */
-        .c-yellow { border-color: #ffcc00; color: #ffcc00; } /* 寰 */
-        .c-black  { border-color: #bbb; color: #bbb; }       /* 諱 (用銀灰色代表黑) */
+        /* Icon Colors (Updated Order per Screenshot) */
+        .c-yellow { border-color: #ffcc00; color: #ffcc00; } /* 震 */
+        .c-black  { border-color: #888; color: #888; }       /* 諱 (深灰/銀) */
         .c-purple { border-color: #a020f0; color: #a020f0; } /* 異 */
         .c-blue   { border-color: #00bfff; color: #00bfff; } /* 職 */
         .c-red    { border-color: #ff4500; color: #ff4500; } /* 鑑 */
@@ -62,12 +62,16 @@
         .tags-section { margin-bottom: 50px; display: flex; align-items: flex-start; }
         .tag-label { color: #ff7f50; font-size: 16px; margin-right: 15px; margin-top: 6px; font-family: serif; flex-shrink: 0;}
         .tag-list { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; }
+        
         .tag-btn {
             background: transparent; border: 1px solid #ff7f50; color: #ff7f50;
             padding: 4px 15px; border-radius: 20px; font-size: 13px; cursor: pointer;
         }
         .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
         .tag-btn.highlight { color: #ffcc00; border-color: #ffcc00; }
+        
+        /* 強制換行輔助 */
+        .break { flex-basis: 100%; height: 5px; }
 
         /* --- Book Grid --- */
         .book-grid {
@@ -110,6 +114,80 @@
         .btn-info { background-color: #f4d03f; color: #333; }
 
         /* --- Theme Colors --- */
-        /* Yellow - 寰 (Other) */
+        /* Yellow - 震 */
         .theme-yellow .book-icon, .theme-yellow .book-title, .theme-yellow .book-meta { color: #ffcc00; }
-        .theme-yellow .book-icon
+        .theme-yellow .book-icon { border-color: #ffcc00; }
+        .theme-yellow .divider { border-color: #ffcc00; }
+
+        /* Black - 諱 (Silver) */
+        .theme-black .book-icon, .theme-black .book-title, .theme-black .book-meta { color: #bbb; }
+        .theme-black .book-icon { border-color: #bbb; }
+        .theme-black .divider { border-color: #bbb; }
+
+        /* Purple - 異 */
+        .theme-purple .book-icon, .theme-purple .book-title, .theme-purple .book-meta { color: #a020f0; }
+        .theme-purple .book-icon { border-color: #a020f0; }
+        .theme-purple .divider { border-color: #a020f0; }
+
+        /* Blue - 職 */
+        .theme-blue .book-icon, .theme-blue .book-title, .theme-blue .book-meta { color: #00bfff; }
+        .theme-blue .book-icon { border-color: #00bfff; }
+        .theme-blue .divider { border-color: #00bfff; }
+
+        /* Red - 鑑 */
+        .theme-red .book-icon, .theme-red .book-title, .theme-red .book-meta { color: #ff4500; }
+        .theme-red .book-icon { border-color: #ff4500; }
+        .theme-red .divider { border-color: #ff4500; }
+
+        /* Green - 誌 */
+        .theme-green .book-icon, .theme-green .book-title, .theme-green .book-meta { color: #9acd32; }
+        .theme-green .book-icon { border-color: #9acd32; }
+        .theme-green .divider { border-color: #9acd32; }
+
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; padding: 15px; }
+            nav ul { justify-content: center; gap: 15px; }
+            .view-toggle { position: relative; justify-content: center; margin-bottom: 20px; top: 0; }
+            .book-grid { grid-template-columns: 1fr; gap: 50px; }
+            .book-cover { width: 120px; height: 170px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><span>⚜</span> 凱薩GLORY</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#" class="active">Books</a></li>
+                <li><a href="#">Merch</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Activty</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="category-icons">
+            <div class="view-toggle">
+                <div class="toggle-btn"><span class="toggle-icon"></span> 文字版</div>
+                <div class="toggle-btn"><span class="toggle-icon"></span> 圖片版</div>
+            </div>
+            <div class="icon-item"><div class="circle c-yellow">震</div><span class="icon-label">綜合其他</span></div>
+            <div class="icon-item"><div class="circle c-black">諱</div><span class="icon-label">黑色驚悚</span></div>
+            <div class="icon-item"><div class="circle c-purple">異</div><span class="icon-label">架空背景</span></div>
+            <div class="icon-item"><div class="circle c-blue">職</div><span class="icon-label">現代都市</span></div>
+            <div class="icon-item"><div class="circle c-red">鑑</div><span class="icon-label">推理軍情</span></div>
+            <div class="icon-item"><div class="circle c-green">誌</div><span class="icon-label">羅馬假期</span></div>
+        </section>
+
+        <section class="tags-section">
+            <div class="tag-label">TAG:</div>
+            <div class="tag-list">
+                <button class="tag-btn highlight">全部作品</button>
+                <button class="tag-btn">莫斯卡托</button>
+                <button
