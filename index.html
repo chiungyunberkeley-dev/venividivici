@@ -60,19 +60,31 @@
         .c-red { border-color: var(--theme-red); color: var(--theme-red); }
         .c-green { border-color: var(--theme-green); color: var(--theme-green); }
 
-        .tags-section { margin-bottom: 40px; display: flex; align-items: flex-start; }
-        .tag-label { color: var(--accent-orange); font-size: 16px; margin-right: 15px; margin-top: 6px; font-family: serif; flex-shrink: 0; }
-        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+        .tags-section { margin-bottom: 40px; display: flex; align-items: flex-start; align-items: center; }
+        .tag-label { color: var(--accent-orange); font-size: 16px; margin-right: 15px; font-family: serif; flex-shrink: 0; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; align-items: center; }
         
+        /* 一般 Tag 樣式 */
         .tag-btn { 
-            background: transparent; border: 1px solid var(--accent-orange); color: var(--accent-orange); 
+            background: transparent; 
+            border: 1px solid var(--accent-orange); 
+            color: var(--accent-orange); 
             padding: 4px 12px; 
             border-radius: 6px; 
-            font-size: 13px; cursor: pointer; transition: 0.3s; 
+            font-size: 13px; 
+            cursor: pointer; 
+            transition: 0.3s; 
             white-space: nowrap; 
         }
         .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
-        .tag-btn.active { background: var(--accent-orange); color: #000; }
+        
+        /* Tag 的 Active 狀態 (修改為黃色空心) */
+        .tag-btn.active { 
+            background: transparent; 
+            border-color: var(--theme-yellow);
+            color: var(--theme-yellow);
+        }
+
         .break { flex-basis: 100%; height: 0; }
 
         .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 50px; }
@@ -162,7 +174,7 @@
         .text-work-item { margin-bottom: 10px; background: #2a2a2a; padding: 15px; border-radius: 8px; }
         .t-work-title { color: var(--theme-yellow); font-weight: bold; font-size: 16px; display: block; margin-bottom: 8px; border-bottom: 1px dotted #555; padding-bottom: 5px;}
         .t-work-meta { font-size: 12px; color: #aaa; line-height: 1.6; }
-        .t-work-note { color: #ff9e80; font-size: 12px; margin-top: 5px; } /* 新增：收錄備註樣式 */
+        .t-work-note { color: #ff9e80; font-size: 12px; margin-top: 5px; } 
 
         /* 出版封面列表 */
         .pub-work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 40px; margin-top: 30px; align-items: end;}
@@ -525,7 +537,9 @@
 
         function renderBooks() {
             const tagCont = document.getElementById('tagListContainer');
-            tagCont.innerHTML = allTags.map(t => `<button class="tag-btn ${t==='全部作品'?'active':''}" onclick="filterBooks('${t}', this)">${t}</button>`).join('');
+            tagCont.innerHTML = allTags.map(t => {
+                return `<button class="tag-btn ${t==='全部作品'?'active':''}" onclick="filterBooks('${t}', this)">${t}</button>`;
+            }).join('');
             if(tagCont.children[2]) tagCont.children[2].classList.add('break');
             filterBooks('全部作品');
         }
