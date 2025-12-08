@@ -60,29 +60,30 @@
         .c-red { border-color: var(--theme-red); color: var(--theme-red); }
         .c-green { border-color: var(--theme-green); color: var(--theme-green); }
 
-        .tags-section { margin-bottom: 40px; display: flex; align-items: flex-start; align-items: center; }
+        .tags-section { margin-bottom: 40px; display: flex; align-items: center; }
         .tag-label { color: var(--accent-orange); font-size: 16px; margin-right: 15px; font-family: serif; flex-shrink: 0; }
-        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; align-items: center; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; align-items: center; }
         
-        /* 一般 Tag 樣式 */
+        /* Tag 樣式 */
         .tag-btn { 
             background: transparent; 
-            border: 1px solid var(--accent-orange); 
-            color: var(--accent-orange); 
-            padding: 4px 12px; 
-            border-radius: 6px; 
-            font-size: 13px; 
+            border: 1px solid #555; 
+            color: #aaa; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-size: 14px; 
             cursor: pointer; 
             transition: 0.3s; 
             white-space: nowrap; 
         }
-        .tag-btn:hover { background: rgba(255, 127, 80, 0.1); }
+        .tag-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
         
-        /* Tag 的 Active 狀態 (修改為黃色空心) */
+        /* Tag 被點擊 (Active) 樣式 - 黃色空心 */
         .tag-btn.active { 
-            background: transparent; 
-            border-color: var(--theme-yellow);
-            color: var(--theme-yellow);
+            background: transparent !important; 
+            border-color: var(--theme-yellow) !important;
+            color: var(--theme-yellow) !important;
+            font-weight: bold;
         }
 
         .break { flex-basis: 100%; height: 0; }
@@ -133,7 +134,7 @@
         .ad-name { font-size: 28px; color: var(--accent-gold); margin-bottom: 10px; font-weight: bold; }
         .ad-bio { font-size: 14px; color: #ccc; line-height: 1.8; margin-bottom: 20px; white-space: pre-line; }
         
-        /* 本生燈專屬佈局: 左側公告+右側連結 */
+        /* 本生燈專屬佈局 */
         .bunsen-layout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; margin-bottom: 40px; }
         
         /* 連結區塊 */
@@ -161,20 +162,56 @@
         .universe-section { border-top: 1px solid var(--accent-orange); border-bottom: 1px solid var(--accent-orange); margin: 40px 0; padding: 30px 0; text-align: center; }
         .universe-links { display: flex; justify-content: center; gap: 20px; }
         .u-btn { border: 1px solid #fff; color: #fff; padding: 8px 25px; border-radius: 20px; font-size: 14px; transition: 0.3s; cursor: pointer;}
-        .u-btn:hover { background: #fff; color: #000; }
+        .u-btn:hover { background: #fff; color: #000; text-decoration: none;}
 
-        /* 作品列表 */
-        .section-header { text-align: center; margin: 50px 0 30px; position: relative; }
-        .section-header::before, .section-header::after { content: ""; display: inline-block; width: 80px; height: 1px; background: var(--accent-orange); vertical-align: middle; margin: 0 15px; clip-path: polygon(0 50%, 10px 0, 10px 100%, 0 50%, 100% 50%, 100% 51%, 0 51%); }
-        .section-header::after { transform: rotate(180deg); }
-        .section-header span { color: var(--accent-orange); font-size: 16px; letter-spacing: 2px; }
+        /* --- 作品列表分隔線 (更新為箭頭樣式) --- */
+        .section-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 50px 0 30px; 
+        }
+        
+        .section-header span { 
+            color: var(--accent-orange); 
+            font-size: 16px; 
+            letter-spacing: 2px; 
+            margin: 0 15px; 
+            font-weight: bold;
+        }
+
+        /* 使用 clip-path 繪製箭頭線條 */
+        .section-header::before, 
+        .section-header::after { 
+            content: ""; 
+            display: block; 
+            width: 120px; /* 線條長度 */
+            height: 10px; /* 箭頭高度 */
+            background-color: var(--accent-orange); 
+            
+            /* 繪製圖形：左側直線，右側三角形箭頭 */
+            clip-path: polygon(
+                0% 45%,   /* 線條左上 */
+                94% 45%,  /* 線條右上 (箭頭起始) */
+                94% 0%,   /* 箭頭頂點 */
+                100% 50%, /* 箭頭尖端 */
+                94% 100%, /* 箭頭底點 */
+                94% 55%,  /* 線條右下 */
+                0% 55%    /* 線條左下 */
+            );
+        }
+
+        /* 右側線條水平翻轉，變成指向左邊 */
+        .section-header::after { 
+            transform: scaleX(-1); 
+        }
 
         /* 文字列表 (連載/完結) */
         .text-work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; text-align: center; }
         .text-work-item { margin-bottom: 10px; background: #2a2a2a; padding: 15px; border-radius: 8px; }
         .t-work-title { color: var(--theme-yellow); font-weight: bold; font-size: 16px; display: block; margin-bottom: 8px; border-bottom: 1px dotted #555; padding-bottom: 5px;}
         .t-work-meta { font-size: 12px; color: #aaa; line-height: 1.6; }
-        .t-work-note { color: #ff9e80; font-size: 12px; margin-top: 5px; } 
+        .t-work-note { color: #ff9e80; font-size: 12px; margin-top: 5px; white-space: pre-line; }
 
         /* 出版封面列表 */
         .pub-work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 40px; margin-top: 30px; align-items: end;}
@@ -392,7 +429,7 @@
             { id: 105, title: "羊駝小姐與黃金獵犬先生", author: "本生燈", status: "ongoing", tags: "BG, 都會戀情", cp: "", wordCount: "單篇", desc: "《無糖的甜度》相關作" },
             { id: 106, title: "沉縛", author: "本生燈", status: "ongoing", tags: "耽美, 輕微BDSM, 強強", cp: "霸道總裁VS控制狂", wordCount: "6-8萬", desc: "" },
             { id: 107, title: "如何在狼手下求生存", author: "本生燈", status: "ongoing", tags: "耽美, 職場, 上司下屬, 砲友", cp: "", wordCount: "單篇連載", desc: "《投資一定有風險》相關作" },
-            { id: 108, title: "枯木逢春", author: "本生燈", status: "ongoing", tags: "耽美, 年齡差, 壯漢, 忠犬受, 台電", cp: "", wordCount: "6-8萬", desc: "" },
+            { id: 108, title: "枯木逢春", author: "本生燈", status: "ongoing", tags: "耽美, 年齡差, 壯漢, 忠犬受", cp: "台電", wordCount: "6-8萬", desc: "" },
 
             // --- 本生燈 完結 ---
             { id: 51, title: "性，愛與筆記", author: "本生燈", status: "completed", tags: "耽美, 甜寵, 治癒, 演藝圈", cp: "", wordCount: "約30萬", desc: "收錄至《性，愛與筆記》" },
@@ -585,10 +622,7 @@
             const completed = myBooks.filter(b => b.status === 'completed');
             const published = myBooks.filter(b => b.status === 'published');
 
-            // 文字列表產生器 (顯示字數與收錄備註)
             const makeTextList = (arr) => arr.map(b => `<div class="text-work-item"><a class="t-work-title">《${b.title}》</a><div class="t-work-meta">${b.tags.split(',').join('、')}</div><div class="t-work-meta">${b.cp ? b.cp : ''}</div><div class="t-work-meta">字數：${b.wordCount||'-'}</div>${b.desc ? `<div class="t-work-note">${b.desc.replace(/\n/g, '<br>')}</div>` : ''}</div>`).join('');
-            
-            // 出版封面列表產生器
             const makePubList = (arr) => arr.map(b => `<div class="pub-work-item"><img src="${b.cover}" class="pub-cover"><div class="pub-title">《${b.title.replace(/\n/g, '<br>')}》</div><div class="pub-meta">${b.tags.split(',')[0]}</div><div class="pub-meta" style="margin-top:5px;white-space:pre-line;">${b.desc}</div></div>`).join('');
 
             let topSection = `<div class="author-detail-header"><img src="${data.avatar}" class="ad-avatar"><div class="ad-info"><div class="ad-name">${data.name}</div><div class="ad-bio">${data.bio}</div></div></div>`;
