@@ -11,6 +11,7 @@
             --text-color: #ddd;
             --accent-gold: #d4af37;
             --accent-orange: #ff7f50;
+            --accent-pink: #ff69b4; /* 新增：粉紅色變數 */
             --theme-blue: #00bfff;
             --theme-green: #9acd32;
             --theme-purple: #a020f0;
@@ -62,14 +63,14 @@
         .c-green { border-color: var(--theme-green); color: var(--theme-green); }
 
         .tags-section { margin-bottom: 40px; display: flex; align-items: center; }
-        .tag-label { color: var(--accent-orange); font-size: 16px; margin-right: 15px; font-family: serif; flex-shrink: 0; }
+        .tag-label { color: var(--accent-pink); font-size: 16px; margin-right: 15px; font-family: serif; flex-shrink: 0; font-weight: bold;}
         .tag-list { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; align-items: center; }
         
-        /* Tag 樣式 */
+        /* Tag 樣式：粉紅色空心 */
         .tag-btn { 
             background: transparent; 
-            border: 1px solid #555; 
-            color: #aaa; 
+            border: 1px solid var(--accent-pink); 
+            color: var(--accent-pink); 
             padding: 5px 15px; 
             border-radius: 20px; 
             font-size: 14px; 
@@ -77,7 +78,7 @@
             transition: 0.3s; 
             white-space: nowrap; 
         }
-        .tag-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+        .tag-btn:hover { background: rgba(255, 105, 180, 0.1); }
         
         /* Tag 被點擊 (Active) 樣式 - 黃色空心 */
         .tag-btn.active { 
@@ -414,44 +415,35 @@
 
     <script>
         // --- 資料庫初始化 ---
-        // 1. 書籍資料 (使用您提供的新文案與資訊更新)
         const defaultBooks = [
-            // --- 書籍頁完整清單 ---
-            { id: 201, title: "安邦立業先守成 上", author: "本生燈", status: "published", category: "theme-blue", price: 350, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「只要你敢要，那就有。」\n\n陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現砲友竟是某大公司董事長吳立業。 兩人性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。\n一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會在新年時互祝平安。\n\n曖昧朦朧的關係如何延伸到未來？ 陳守安遲疑於兩人之間的年齡與社會地位差距，而男人卻告訴他，「只要你敢要，那就有。」", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
-            
-            { id: 202, title: "安邦立業先守成 下", author: "本生燈", status: "published", category: "theme-blue", price: 350, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「喜歡嗎？我認為這兩個字還不夠，不能完整表達我的感情。我想要的是，看你站得更高，飛得更遠，活得更自由。」\n\n隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。 選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。 另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。\n但人生哪能不起波折，只求有緣人同舟共渡。\n如果提出要求就能被實現，那陳守安只有一個要求。\n「我喜歡聽你說喜歡我。」\n\n而吳立業所能給的，比一個更多。", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
-            
-            { id: 203, title: "003期 Wedding", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 甜寵", cover: "https://via.placeholder.com/140x200?text=Wedding", desc: "收錄《性，愛與筆記》及《當星星殞落》相關番外\n\n《性，愛與筆記》番外收錄\n－千年結緣　《紅妝待嫁》《共枕眠》《我心安處》\n－浪漫脈動　《永恆凝結》\n\n《當星星殞落》番外收錄\n－浪漫脈動　《我願意》\n－一加一　   《單身派對》《心跳共鳴》", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 204, title: "錄音間秘事", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「我們在一起之後，我每天都在感謝老天爺，讓你遇見我，在我最好的時候。」\n\n程曉璐第一次接演耽美廣播劇，與前輩姚謹懷搭戲， 他被姚謹懷的呻吟勾起反應， 而在錄音間外，他卻被姚謹懷反壓在門板上俯首親吻。 曖昧流轉成慾望，程曉璐以為兩人只是順勢交往， 但姚謹懷似乎比他以為的更喜歡他——", carousel: false, buyLink: "#", infoLink: "#", wordCount: "約4萬" },
-            
-            { id: 205, title: "002期 LIFE", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 甜寵", cover: "https://via.placeholder.com/140x200?text=LIFE", desc: "收錄《投資一定有風險》及《談愛傷感情》相關番外\n\n《投資一定有風險》番外收錄\n－怦然時刻　《融心》\n－心之所向　《共祈》\n－浪漫指南　《情炙》\n\n《談愛傷感情》番外收錄\n－怦然時刻　《尾指的溫度》\n－心之所向　《野花香》\n－浪漫指南　《歲月靜好》", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 206, title: "絕交進行式", author: "莫斯卡托", status: "published", category: "theme-blue", price: 200, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Break", desc: "「我不缺朋友，也不缺室友，只缺男朋友。」\n\n在外人眼中，陳鳴予是幽默多金的眼科醫師，周晉哲是溫和內向的營養師。\n私底下，陳鳴予是幼稚又沉迷遊戲的電動狂，周晉哲是廚藝精湛的生活達人。\n個性迥然的他們以室友身分同居十年，相互有意卻無人戳破，直到一次並不平靜的情人節！\n\n──我不想再和你當朋友，我們絕交吧！\n平衡被打破，不再是朋友的兩人該如何相處？", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 207, title: "騂艣之末", author: "本生燈", status: "published", category: "theme-black", price: 270, tags: "星際, ABO, 骨科, 人外, 兄弟, 年下, 懸疑, 異世界", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "【異世界懸疑耽美ABO短篇合集】\n\n《騂艣之末》 【跨越星際、物種和血緣的複雜感情】\n星歷3395年，騂艣一族侵犯地球，挾持特殊自衛隊Ω總指揮官韓鷹回到天艣星，韓鷹遇見對他抱著特殊感情的孿生兄弟薩爾提諾，此刻又正巧碰上韓鷹的發情期……\n\n《深水里的叛徒》【異色懸疑耽美】\n諱莫里的α巡警王國文暗自欽慕清冷俊美的Ω醫師施友德，施友德每個月都會回他的故鄉深水里義診，深水里就坐落在那遙遠的山頭。\n一日，王國文跟蹤施友德上山，卻意外闖入深水里的「繼位大典」而被囚禁，而被他標記過的施友德卻帶著別人的標記。\n午夜十二點，「繼位大典」即將舉行。", carousel: false, buyLink: "#", infoLink: "#", wordCount: "1-2萬" },
-            
-            { id: 208, title: "北之國-冒險版", author: "莫斯卡托", status: "published", category: "theme-purple", price: 280, tags: "耽美, 奇幻架空, 雙性生子, 甜寵", cover: "https://via.placeholder.com/140x200?text=North", desc: "「只有你，有資格成為我孩子的父親。」\n\n北之國王室的血脈特殊，他們沒有王后，代代由王儲親自以男體孕子。\n現任王儲‧諾恩年方十八，暗戀年長的家庭教師已久，數次示愛，也數次失敗。\n然而依照習俗，為了孕育最優秀的子嗣，王夫人選只能是招親儀式的優勝者。\n面對猛烈攻勢，拜倫既非鐵石心腸，亦非無動於衷，但兩人年歲相差甚多，諸多考量讓拜倫始終拿不定主意。\n而今儀式在即，各方挑戰者紛紛湧入北之國，究竟王夫頭銜將由何人拔得頭籌？", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 209, title: "北之國-童話版", author: "莫斯卡托", status: "published", category: "theme-purple", price: 280, tags: "耽美, 奇幻架空, 雙性生子, 甜寵", cover: "https://via.placeholder.com/140x200?text=North2", desc: "「只有你，有資格成為我孩子的父親。」\n\n北之國王室的血脈特殊，他們沒有王后，代代由王儲親自以男體孕子。\n現任王儲‧諾恩年方十八，暗戀年長的家庭教師已久，數次示愛，也數次失敗。\n然而依照習俗，為了孕育最優秀的子嗣，王夫人選只能是招親儀式的優勝者。\n面對猛烈攻勢，拜倫既非鐵石心腸，亦非無動於衷，但兩人年歲相差甚多，諸多考量讓拜倫始終拿不定主意。\n而今儀式在即，各方挑戰者紛紛湧入北之國，究竟王夫頭銜將由何人拔得頭籌？", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 210, title: "當星星殞落", author: "莫斯卡托", status: "published", category: "theme-blue", price: 370, tags: "耽美, 現代都市, 暗戀, 強強", cover: "https://via.placeholder.com/140x200?text=Star", desc: "倘若神真的存在，我必然因為無數次祈求星星的殞落而被降罪。\n\n「鬧夠了吧？盧學淵，你放開我！」\n「許星，但你硬了。不只硬了還射在我的體內。」\n一場非預期的官司，讓盧學淵有了最好的理由再去摘取十多年前錯過的星辰。 不容他人拒絕的天之驕子，步步逼近夜空中萬眾矚目的璀璨星辰，他們分享親吻、擁抱，和性愛，相偎的體溫從陌生到熟悉。\n許星一再退讓，直到避無可避，面對律師與委託人間脫序的關係，他們是否真有導回正軌的那一天？", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 211, title: "創刊號 GLORY", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 演藝圈, 甜寵", cover: "https://via.placeholder.com/140x200?text=Glory", desc: "收錄《性，愛與筆記》及《當星星殞落》相關番外\n\n《性，愛與筆記》番外收錄\n－焦點話題　《未婚夫，請多指教》\n－寓教於樂　《都普勒敲鐘》\n－談心教室　《當局者迷》\n－闔家歡樂　《卡坦島的回合》\n－獨家專訪　《直擊陸臣》\n\n《當星星殞落》番外收錄\n－私房指南　《機關算盡》\n－閒話家常　《帥女婿見家長》\n－驚爆內幕　《噓！盧總的願望》", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 212, title: "性，愛與筆記 · 微糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n他們之間，相隔兩億五千萬光年的距離。\n\n當紅男星陸臣為了磨練自己的演技，接演一部同志片，在劇組遇上物理系助理教授靳明毅。\n男人品味優雅，學識豐富，完全符合他的性幻想，讓他忍不住親近，一場跳樓的戲更讓兩人之間的距離急速縮短。\n「你有過那種經驗嗎？被逼到絕境，心灰意冷，不如去死？」\n「有。」\n「不要走上絕路，你現在這樣，就很好。」\n那一瞬間，陸臣猛然意識到，男人不再只是他的性幻想對象。", carousel: false, buyLink: "#", infoLink: "#", wordCount: "約30萬" },
-            
-            { id: 213, title: "性，愛與筆記 · 半糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n「你穿這樣，很干擾我。」\n「我喝醉了。你想做什麼都可以，我不記得。」\n\n陸臣為了避風頭，隨靳明毅出國參加研討會，兩人暢遊芝加哥。數天的朝夕相處，讓彼此之間更加了解。\n陸臣敲開靳明毅的房門，本想尋求經紀合約的建議，卻撞見微醺的靳明毅。\n男人少了斯文，多了野性，陸臣只覺得心癢難耐。\n他在靳明毅的眼睛裡，看見意亂情迷的自己，炙熱的情感幾乎要竄出喉嚨，整個身體都發燙。\n「你有兩個選擇。第一，我醉了，你現在離開，我們明天再討論你的問題。第二，你留下來，我們明天再討論你的問題。」", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 214, title: "性，愛與筆記 · 全糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n「你的喜歡很珍貴，值得我每天向你討。」\n「這故事源自我的想像，如今卻成為我的筆記。」\n\n靳明毅與陸臣終於確定關係，幸福只差臨門一腳，前男友卻再度闖入陸臣的房裡。\n「你敢叫人，我就立刻上傳性愛影片。」\n陸臣早已蛻變，豈甘受制於人。\n「我可以告你性騷擾，還可以告你誹謗。你說你有影片，你拿出來，我們法院見。」\n一直埋藏在他心裡的刺，一定要好好拔除，不留一點痕跡。", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 215, title: "SCID-異鄉人 上冊", author: "莫斯卡托", status: "published", category: "theme-red", price: 320, tags: "耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強", cover: "https://via.placeholder.com/140x200?text=SCID1", desc: "「別說戀人，他們連朋友都當不成！」\n\n特殊犯罪搜查組迎來新任檢察官，布蘭登‧伊茲，然而布蘭登卻處處針對向來好相處的警探，丹佐‧悉德尼。\n「放任線人上下其手，悉德尼警探總是用這種方式辦案嗎？」\n布蘭登話裡話外處處帶刺，幾番退讓的丹佐終是忍無可忍，「不將個人情緒帶到工作中是常識吧？」\n兩人在辦案之間相互磨合，丹佐逐漸被布蘭登吸引，然而直男顯然不是戀愛對象的好選項。\n究竟，難解的感情習題能否在同樣難解的案情中找到解答？", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 216, title: "SCID-異鄉人 下冊", author: "莫斯卡托", status: "published", category: "theme-red", price: 380, tags: "耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強", cover: "https://via.placeholder.com/140x200?text=SCID2", desc: "當獵人與獵物的立場對換，該如何出擊？\n\n獵豔被撞破，丹佐的行為直接踩上布蘭登的底線，兩人的關係驟然降至冰點。\n就在此時，座車修好的布蘭登也毋須仰賴丹佐接送，相處的時間因而大幅減少。\n睽違多日不見，丹佐怎麼也沒想到竟會傳來如此噩耗──布蘭登失聯了！\n一場意外，再次拉近兩人的距離。 相對退縮的丹佐，察覺自身感情的布蘭登選擇步步逼近。\n且看翻轉獵物身份的布蘭登如何拿下獵人。", carousel: false, buyLink: "#", infoLink: "#" },
-            
-            { id: 217, title: "但凡死者都姓蘇", author: "本生燈", status: "published", category: "theme-purple", price: 200, tags: "一般向, 穿越, 懸疑推理, 現代都市, 強強", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「所以，沒有人有不在場證明嗎？」\n\n這句話很銳利，銳利得能切斷所有薄弱的同學情誼。\n蘇曉寒一覺醒來發現落入自己的遊戲。\n與世隔絕的山莊，六個嫌疑人，隨機抽取的三十幾個劇本中，她曾把自己玩死好多次。\n她小心推理，步步為營，就怕自己走不出遊戲。\n很久以後，她才發現，遊戲裡，總會有一個死者姓蘇。", carousel: false, buyLink: "#", infoLink: "#" },
+            // --- ID排序：ID越大越新 ---
+            // 最新：安邦立業先守成 (ID: 302/301)
+            // 最舊：但凡死者都姓蘇 (ID: 100)
 
-            // --- 莫斯卡托 連載/完結 ---
+            // --- 新書區 (ID 300+) ---
+            { id: 302, title: "安邦立業先守成 下", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「喜歡嗎？我認為這兩個字還不夠，不能完整表達我的感情。我想要的是，看你站得更高，飛得更遠，活得更自由。」\n\n隨著兩人的感情漸入佳境，價值觀與社經地位的差異也逐漸浮現出來。 選擇伴侶是不是要門當戶對？陳守安不只一次捫心自問，還得面對職場的排擠。 另一方面，面臨廠商哄抬價格與對手惡意競價，吳立業亦有自己的難題。\n但人生哪能不起波折，只求有緣人同舟共渡。\n如果提出要求就能被實現，那陳守安只有一個要求。\n「我喜歡聽你說喜歡我。」\n\n而吳立業所能給的，比一個更多。", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
+            { id: 301, title: "安邦立業先守成 上", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「只要你敢要，那就有。」\n\n陳守安在泳池進了一間傳說中供Gay打砲的淋浴間，和猛男來一場酣暢淋漓的豔遇，出了淋浴間才發現砲友竟是某大公司董事長吳立業。 兩人性事合拍，食髓知味，豔遇成為固砲，卻也讓彼此更靠近對方的生活。\n一個是剛踏入社會的菜鳥工程師，一個是在社會打滾多年的企業董事長，他問他職場的進退，他陪他渡過事業的波折，性事之外，他們會擁抱，會親吻，會在新年時互祝平安。\n\n曖昧朦朧的關係如何延伸到未來？ 陳守安遲疑於兩人之間的年齡與社會地位差距，而男人卻告訴他，「只要你敢要，那就有。」", carousel: true, buyLink: "#", infoLink: "#", wordCount: "約16萬" },
+            
+            // --- 近期 (ID 290-300) ---
+            { id: 300, title: "003期 Wedding", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 甜寵", cover: "https://via.placeholder.com/140x200?text=Wedding", desc: "收錄《性，愛與筆記》及《當星星殞落》相關番外\n\n《性，愛與筆記》番外收錄\n－千年結緣　《紅妝待嫁》《共枕眠》《我心安處》\n－浪漫脈動　《永恆凝結》\n\n《當星星殞落》番外收錄\n－浪漫脈動　《我願意》\n－一加一　   《單身派對》《心跳共鳴》", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 299, title: "錄音間秘事", author: "本生燈", status: "published", category: "theme-blue", price: 250, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「我們在一起之後，我每天都在感謝老天爺，讓你遇見我，在我最好的時候。」\n\n程曉璐第一次接演耽美廣播劇，與前輩姚謹懷搭戲， 他被姚謹懷的呻吟勾起反應， 而在錄音間外，他卻被姚謹懷反壓在門板上俯首親吻。 曖昧流轉成慾望，程曉璐以為兩人只是順勢交往， 但姚謹懷似乎比他以為的更喜歡他——", carousel: false, buyLink: "#", infoLink: "#", wordCount: "約4萬" },
+            { id: 298, title: "002期 LIFE", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 甜寵", cover: "https://via.placeholder.com/140x200?text=LIFE", desc: "收錄《投資一定有風險》及《談愛傷感情》相關番外\n\n《投資一定有風險》番外收錄\n－怦然時刻　《融心》\n－心之所向　《共祈》\n－浪漫指南　《情炙》\n\n《談愛傷感情》番外收錄\n－怦然時刻　《尾指的溫度》\n－心之所向　《野花香》\n－浪漫指南　《歲月靜好》", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 297, title: "絕交進行式", author: "莫斯卡托", status: "published", category: "theme-blue", price: 200, tags: "現代都市, 耽美, 雙向暗戀, 甜寵", cover: "https://via.placeholder.com/140x200?text=Break", desc: "「我不缺朋友，也不缺室友，只缺男朋友。」\n\n在外人眼中，陳鳴予是幽默多金的眼科醫師，周晉哲是溫和內向的營養師。\n私底下，陳鳴予是幼稚又沉迷遊戲的電動狂，周晉哲是廚藝精湛的生活達人。\n個性迥然的他們以室友身分同居十年，相互有意卻無人戳破，直到一次並不平靜的情人節！\n\n──我不想再和你當朋友，我們絕交吧！\n平衡被打破，不再是朋友的兩人該如何相處？", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 296, title: "騂艣之末", author: "本生燈", status: "published", category: "theme-black", price: 270, tags: "星際, ABO, 骨科, 人外, 兄弟, 年下, 懸疑, 異世界", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "【異世界懸疑耽美ABO短篇合集】\n\n《騂艣之末》 【跨越星際、物種和血緣的複雜感情】\n星歷3395年，騂艣一族侵犯地球，挾持特殊自衛隊Ω總指揮官韓鷹回到天艣星，韓鷹遇見對他抱著特殊感情的孿生兄弟薩爾提諾，此刻又正巧碰上韓鷹的發情期……\n\n《深水里的叛徒》【異色懸疑耽美】\n諱莫里的α巡警王國文暗自欽慕清冷俊美的Ω醫師施友德，施友德每個月都會回他的故鄉深水里義診，深水里就坐落在那遙遠的山頭。\n一日，王國文跟蹤施友德上山，卻意外闖入深水里的「繼位大典」而被囚禁，而被他標記過的施友德卻帶著別人的標記。\n午夜十二點，「繼位大典」即將舉行。", carousel: false, buyLink: "#", infoLink: "#", wordCount: "1-2萬" },
+            { id: 295, title: "北之國-冒險版", author: "莫斯卡托", status: "published", category: "theme-purple", price: 280, tags: "耽美, 奇幻架空, 雙性生子, 甜寵", cover: "https://via.placeholder.com/140x200?text=North", desc: "「只有你，有資格成為我孩子的父親。」\n\n北之國王室的血脈特殊，他們沒有王后，代代由王儲親自以男體孕子。\n現任王儲‧諾恩年方十八，暗戀年長的家庭教師已久，數次示愛，也數次失敗。\n然而依照習俗，為了孕育最優秀的子嗣，王夫人選只能是招親儀式的優勝者。\n面對猛烈攻勢，拜倫既非鐵石心腸，亦非無動於衷，但兩人年歲相差甚多，諸多考量讓拜倫始終拿不定主意。\n而今儀式在即，各方挑戰者紛紛湧入北之國，究竟王夫頭銜將由何人拔得頭籌？", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 294, title: "北之國-童話版", author: "莫斯卡托", status: "published", category: "theme-purple", price: 280, tags: "耽美, 奇幻架空, 雙性生子, 甜寵", cover: "https://via.placeholder.com/140x200?text=North2", desc: "「只有你，有資格成為我孩子的父親。」\n\n北之國王室的血脈特殊，他們沒有王后，代代由王儲親自以男體孕子。\n現任王儲‧諾恩年方十八，暗戀年長的家庭教師已久，數次示愛，也數次失敗。\n然而依照習俗，為了孕育最優秀的子嗣，王夫人選只能是招親儀式的優勝者。\n面對猛烈攻勢，拜倫既非鐵石心腸，亦非無動於衷，但兩人年歲相差甚多，諸多考量讓拜倫始終拿不定主意。\n而今儀式在即，各方挑戰者紛紛湧入北之國，究竟王夫頭銜將由何人拔得頭籌？", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 293, title: "當星星殞落", author: "莫斯卡托", status: "published", category: "theme-blue", price: 370, tags: "耽美, 現代都市, 暗戀, 強強", cover: "https://via.placeholder.com/140x200?text=Star", desc: "倘若神真的存在，我必然因為無數次祈求星星的殞落而被降罪。\n\n「鬧夠了吧？盧學淵，你放開我！」\n「許星，但你硬了。不只硬了還射在我的體內。」\n一場非預期的官司，讓盧學淵有了最好的理由再去摘取十多年前錯過的星辰。 不容他人拒絕的天之驕子，步步逼近夜空中萬眾矚目的璀璨星辰，他們分享親吻、擁抱，和性愛，相偎的體溫從陌生到熟悉。\n許星一再退讓，直到避無可避，面對律師與委託人間脫序的關係，他們是否真有導回正軌的那一天？", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 292, title: "創刊號 GLORY", author: "莫斯卡托、本生燈", status: "published", category: "theme-green", price: 240, tags: "耽美, 現代都市, 演藝圈, 甜寵", cover: "https://via.placeholder.com/140x200?text=Glory", desc: "收錄《性，愛與筆記》及《當星星殞落》相關番外\n\n《性，愛與筆記》番外收錄\n－焦點話題　《未婚夫，請多指教》\n－寓教於樂　《都普勒敲鐘》\n－談心教室　《當局者迷》\n－闔家歡樂　《卡坦島的回合》\n－獨家專訪　《直擊陸臣》\n\n《當星星殞落》番外收錄\n－私房指南　《機關算盡》\n－閒話家常　《帥女婿見家長》\n－驚爆內幕　《噓！盧總的願望》", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 291, title: "性，愛與筆記 · 微糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n他們之間，相隔兩億五千萬光年的距離。\n\n當紅男星陸臣為了磨練自己的演技，接演一部同志片，在劇組遇上物理系助理教授靳明毅。\n男人品味優雅，學識豐富，完全符合他的性幻想，讓他忍不住親近，一場跳樓的戲更讓兩人之間的距離急速縮短。\n「你有過那種經驗嗎？被逼到絕境，心灰意冷，不如去死？」\n「有。」\n「不要走上絕路，你現在這樣，就很好。」\n那一瞬間，陸臣猛然意識到，男人不再只是他的性幻想對象。", carousel: false, buyLink: "#", infoLink: "#", wordCount: "約30萬" },
+            { id: 290, title: "性，愛與筆記 · 半糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n「你穿這樣，很干擾我。」\n「我喝醉了。你想做什麼都可以，我不記得。」\n\n陸臣為了避風頭，隨靳明毅出國參加研討會，兩人暢遊芝加哥。數天的朝夕相處，讓彼此之間更加了解。\n陸臣敲開靳明毅的房門，本想尋求經紀合約的建議，卻撞見微醺的靳明毅。\n男人少了斯文，多了野性，陸臣只覺得心癢難耐。\n他在靳明毅的眼睛裡，看見意亂情迷的自己，炙熱的情感幾乎要竄出喉嚨，整個身體都發燙。\n「你有兩個選擇。第一，我醉了，你現在離開，我們明天再討論你的問題。第二，你留下來，我們明天再討論你的問題。」", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 289, title: "性，愛與筆記 · 全糖", author: "本生燈", status: "published", category: "theme-blue", price: 1100, tags: "耽美, 演藝圈, 現代都市", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "一套三冊不分售\n\n「你的喜歡很珍貴，值得我每天向你討。」\n「這故事源自我的想像，如今卻成為我的筆記。」\n\n靳明毅與陸臣終於確定關係，幸福只差臨門一腳，前男友卻再度闖入陸臣的房裡。\n「你敢叫人，我就立刻上傳性愛影片。」\n陸臣早已蛻變，豈甘受制於人。\n「我可以告你性騷擾，還可以告你誹謗。你說你有影片，你拿出來，我們法院見。」\n一直埋藏在他心裡的刺，一定要好好拔除，不留一點痕跡。", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 288, title: "SCID-異鄉人 上冊", author: "莫斯卡托", status: "published", category: "theme-red", price: 320, tags: "耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強", cover: "https://via.placeholder.com/140x200?text=SCID1", desc: "「別說戀人，他們連朋友都當不成！」\n\n特殊犯罪搜查組迎來新任檢察官，布蘭登‧伊茲，然而布蘭登卻處處針對向來好相處的警探，丹佐‧悉德尼。\n「放任線人上下其手，悉德尼警探總是用這種方式辦案嗎？」\n布蘭登話裡話外處處帶刺，幾番退讓的丹佐終是忍無可忍，「不將個人情緒帶到工作中是常識吧？」\n兩人在辦案之間相互磨合，丹佐逐漸被布蘭登吸引，然而直男顯然不是戀愛對象的好選項。\n究竟，難解的感情習題能否在同樣難解的案情中找到解答？", carousel: false, buyLink: "#", infoLink: "#" },
+            { id: 287, title: "SCID-異鄉人 下冊", author: "莫斯卡托", status: "published", category: "theme-red", price: 380, tags: "耽美, 軍警, 懸疑推理, 現代都市, 歐美風, 強強", cover: "https://via.placeholder.com/140x200?text=SCID2", desc: "當獵人與獵物的立場對換，該如何出擊？\n\n獵豔被撞破，丹佐的行為直接踩上布蘭登的底線，兩人的關係驟然降至冰點。\n就在此時，座車修好的布蘭登也毋須仰賴丹佐接送，相處的時間因而大幅減少。\n睽違多日不見，丹佐怎麼也沒想到竟會傳來如此噩耗──布蘭登失聯了！\n一場意外，再次拉近兩人的距離。 相對退縮的丹佐，察覺自身感情的布蘭登選擇步步逼近。\n且看翻轉獵物身份的布蘭登如何拿下獵人。", carousel: false, buyLink: "#", infoLink: "#" },
+            
+            // --- 最舊：但凡死者都姓蘇 (ID 100) ---
+            { id: 100, title: "但凡死者都姓蘇", author: "本生燈", status: "published", category: "theme-purple", price: 200, tags: "一般向, 穿越, 懸疑推理, 現代都市, 強強", cover: "https://via.placeholder.com/140x200?text=Cover", desc: "「所以，沒有人有不在場證明嗎？」\n\n這句話很銳利，銳利得能切斷所有薄弱的同學情誼。\n蘇曉寒一覺醒來發現落入自己的遊戲。\n與世隔絕的山莊，六個嫌疑人，隨機抽取的三十幾個劇本中，她曾把自己玩死好多次。\n她小心推理，步步為營，就怕自己走不出遊戲。\n很久以後，她才發現，遊戲裡，總會有一個死者姓蘇。", carousel: false, buyLink: "#", infoLink: "#" },
+
+            // --- 莫斯卡托 連載/完結 (ID 109-111, 67-70) ---
             { id: 109, title: "當社工怎麼談戀愛", author: "莫斯卡托", status: "ongoing", tags: "耽美, 現代都市, 職場", cp: "", wordCount: "-", desc: "連載中..." },
             { id: 110, title: "長夜未曉", author: "莫斯卡托", status: "ongoing", tags: "耽美, 血族, 歐美風, 中古世紀奇幻", cp: "", wordCount: "-", desc: "連載中..." },
             { id: 111, title: "願者上鉤", author: "莫斯卡托", status: "ongoing", tags: "耽美, 現代都市, 亂倫, 多P", cp: "", wordCount: "-", desc: "連載中..." },
@@ -460,7 +452,7 @@
             { id: 69, title: "不再沉默", author: "莫斯卡托", status: "completed", tags: "耽美, 現代都市, 溫馨日常, 掰彎直男", cp: "", wordCount: "-", desc: "完結" },
             { id: 70, title: "與君共舞", author: "莫斯卡托", status: "completed", tags: "現代都市, 耽美, 掰彎直男", cp: "", wordCount: "-", desc: "完結" },
 
-            // --- 本生燈 連載中 ---
+            // --- 本生燈 連載中 (ID 101-108) ---
             { id: 101, title: "金色深淵", author: "本生燈", status: "ongoing", tags: "耽美, 歐美, 懸疑, 強強", cp: "", wordCount: "10-20萬", desc: "" },
             { id: 102, title: "匪類", author: "本生燈", status: "ongoing", tags: "耽美, 強強, 特務, 砲友", cp: "", wordCount: "7萬", desc: "" },
             { id: 103, title: "錄音間外的旁觀者", author: "本生燈", status: "ongoing", tags: "耽美, 聲音導演X配音員", cp: "", wordCount: "約7萬", desc: "" },
@@ -470,7 +462,7 @@
             { id: 107, title: "如何在狼手下求生存", author: "本生燈", status: "ongoing", tags: "耽美, 職場, 上司下屬, 砲友", cp: "", wordCount: "單篇連載", desc: "《投資一定有風險》相關作" },
             { id: 108, title: "枯木逢春", author: "本生燈", status: "ongoing", tags: "耽美, 年齡差, 壯漢, 忠犬受, 台電", cp: "", wordCount: "6-8萬", desc: "" },
 
-            // --- 本生燈 完結 (部分重複但為了完整性保留) ---
+            // --- 本生燈 完結 (重複保留ID 50-66以對應舊資料) ---
             { id: 50, title: "斯堪地聯邦冒險手記", author: "本生燈", status: "completed", tags: "耽美, 輕奇幻, 人魚, 冒險", cp: "", wordCount: "27萬", desc: "朧月出版" },
             { id: 52, title: "投資一定有風險", author: "本生燈", status: "completed", tags: "耽美, 純情, 單戀, 異男忘", cp: "", wordCount: "約15萬", desc: "朧月出版\n《性，愛與筆記》相關作\n可獨立閱讀" },
             { id: 53, title: "錄音間秘事", author: "本生燈", status: "completed", tags: "耽美, 配音員, 前輩後備", cp: "", wordCount: "約4萬", desc: "" },
@@ -486,7 +478,9 @@
             { id: 63, title: "上善若水", author: "本生燈", status: "completed", tags: "耽美, 現代都市, 小短文", cp: "", wordCount: "1萬內", desc: "" },
             { id: 64, title: "無糖的甜度", author: "本生燈", status: "completed", tags: "耽美, 工程師, 雙向暗戀", cp: "", wordCount: "1-2萬", desc: "收錄至《365行》" },
             { id: 65, title: "湖畔山莊", author: "本生燈", status: "completed", tags: "一般, 懸疑, 推理, 穿越", cp: "", wordCount: "1-2萬", desc: "收錄至《但凡死者都姓蘇》" },
-            { id: 66, title: "玫瑰山莊", author: "本生燈", status: "completed", tags: "一般, 懸疑, 推理, 穿越", cp: "", wordCount: "1-2萬", desc: "收錄至《但凡死者都姓蘇》" }
+            { id: 66, title: "玫瑰山莊", author: "本生燈", status: "completed", tags: "一般, 懸疑, 推理, 穿越", cp: "", wordCount: "1-2萬", desc: "收錄至《但凡死者都姓蘇》" },
+            
+            // --- 舊資料 出版 (ID 196-180 略，因已被上方300+取代或重新排序，此處不再列出避免重複顯示) ---
         ];
 
         // 2. 作者資料
@@ -519,7 +513,6 @@
         let books = JSON.parse(localStorage.getItem('glory_books')) || defaultBooks;
         let authors = JSON.parse(localStorage.getItem('glory_authors')) || defaultAuthors;
         
-        // --- 新增：首頁快訊資料 ---
         let siteNews = localStorage.getItem('glory_site_news') || "";
 
         const saveDB = () => { 
@@ -580,7 +573,6 @@
             const pub = books.filter(b => b.status === 'published' && b.carousel);
             document.getElementById('homeCarousel').innerHTML = pub.map((b, i) => `<div class="carousel-slide ${i===0?'active':''}" style="background-image:url('${b.cover}')"><div class="carousel-caption">${b.title}</div></div>`).join('');
             
-            // 首頁顯示邏輯：先顯示本生燈的固定簡介，再顯示動態上架訊息
             let content = `<div>${authors.bunsen.news}</div>`;
             if (siteNews) {
                 content = `<div style="margin-bottom:20px; border-bottom:1px dashed #555; padding-bottom:15px; color:#ff9e80;">${siteNews}</div>` + content;
@@ -642,7 +634,14 @@
             const published = myBooks.filter(b => b.status === 'published');
 
             const makeTextList = (arr) => arr.map(b => `<div class="text-work-item"><a class="t-work-title">《${b.title}》</a><div class="t-work-meta">${b.tags.split(',').join('、')}</div><div class="t-work-meta">${b.cp ? b.cp : ''}</div><div class="t-work-meta">字數：${b.wordCount||'-'}</div>${b.desc ? `<div class="t-work-note">${b.desc.replace(/\n/g, '<br>')}</div>` : ''}</div>`).join('');
-            const makePubList = (arr) => arr.map(b => `<div class="pub-work-item"><img src="${b.cover}" class="pub-cover"><div class="pub-title">《${b.title.replace(/\n/g, '<br>')}》</div><div class="pub-meta">${b.tags.split(',')[0]}</div><div class="pub-meta" style="margin-top:5px;white-space:pre-line;">${b.desc}</div></div>`).join('');
+            
+            // --- 修改處：移除文案，僅保留 TAG ---
+            const makePubList = (arr) => arr.map(b => `
+                <div class="pub-work-item">
+                    <img src="${b.cover}" class="pub-cover">
+                    <div class="pub-title">《${b.title.replace(/\n/g, '<br>')}》</div>
+                    <div class="pub-meta">${b.tags}</div>
+                </div>`).join('');
 
             let topSection = `<div class="author-detail-header"><img src="${data.avatar}" class="ad-avatar"><div class="ad-info"><div class="ad-name">${data.name}</div><div class="ad-bio">${data.bio}</div></div></div>`;
             
@@ -691,12 +690,11 @@
             };
             if(id) { const idx = books.findIndex(b => b.id == id); books[idx] = newBook; } else { books.push(newBook); }
             
-            // --- 新增：發布上架訊息 ---
             const addToNews = document.getElementById('addToNews').checked;
             if(addToNews) {
                 const today = new Date().toISOString().split('T')[0];
                 const msg = `[${today}] 《${newBook.title}》 新書上架！\n`;
-                siteNews = msg + siteNews; // 新訊息加在最前面 (由上到下)
+                siteNews = msg + siteNews;
             }
 
             saveDB(); renderBookList(); alert('儲存成功' + (addToNews ? ' (已發布上架快訊)' : '')); 
